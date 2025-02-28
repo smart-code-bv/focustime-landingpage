@@ -1,5 +1,18 @@
 // Analytics for Focustime website
 // This script tracks user interactions and page views
+import supabaseConfig from './supabase-config.js';
+import { createClient } from './supabase-lib.js';
+
+// Initialize Supabase client for analytics
+let supabaseClient = null;
+try {
+  if (supabaseConfig.url && supabaseConfig.anonKey) {
+    supabaseClient = createClient(supabaseConfig.url, supabaseConfig.anonKey);
+    console.log('Analytics: Supabase client initialized successfully');
+  }
+} catch (error) {
+  console.error('Analytics: Error initializing Supabase client:', error);
+}
 
 // Initialize analytics
 function initAnalytics() {
@@ -27,11 +40,11 @@ function trackPageView() {
     userAgent: navigator.userAgent
   };
   
-  // In a production environment, we would send this to our analytics endpoint
+  // Log the page view event
   console.log('Page view:', pageData);
   
-  // If Supabase is available, we can log the page view there
-  if (typeof supabase !== 'undefined') {
+  // If Supabase client is available, log the page view there
+  if (supabaseClient) {
     logEventToSupabase('page_view', pageData);
   }
 }
@@ -99,9 +112,10 @@ function trackFormInteractions() {
     
     // Track form submissions
     contactForm.addEventListener('submit', function() {
+      const partnerType = document.getElementById('partner-type');
       trackEvent('form_submit', { 
         form: 'contact',
-        partner_type: document.getElementById('partner-type').value
+        partner_type: partnerType ? partnerType.value : 'not_specified'
       });
     });
   }
@@ -135,35 +149,33 @@ function trackEvent(eventName, eventData) {
     language: document.documentElement.lang || 'en'
   };
   
-  // In a production environment, we would send this to our analytics endpoint
+  // Log the event to console
   console.log(`Event: ${eventName}`, completeEventData);
   
-  // If Supabase is available, we can log the event there
-  if (typeof supabase !== 'undefined') {
+  // If Supabase client is available, log the event there
+  if (supabaseClient) {
     logEventToSupabase(eventName, completeEventData);
   }
 }
 
 // Log events to Supabase if available
-function logEventToSupabase(eventName, eventData) {
-  if (typeof supabase === 'undefined') return;
+async function logEventToSupabase(eventName, eventData) {
+  if (!supabaseClient) return;
   
-  supabase
-    .from('analytics_events')
-    .insert([{
+  try {
+    await supabaseClient.from('analytics_events').insert({
       event_name: eventName,
       event_data: eventData,
       created_at: new Date().toISOString()
-    }])
-    .then(response => {
-      if (response.error) {
-        console.error('Analytics error:', response.error);
-      }
-    })
-    .catch(error => {
-      console.error('Analytics error:', error);
     });
+    console.log(`Analytics: Event ${eventName} logged to Supabase`);
+  } catch (error) {
+    console.error('Analytics: Error logging to Supabase:', error);
+  }
 }
+
+// Export functions for use in other modules
+export { trackEvent, trackPageView };
 
 // Initialize analytics when the page is loaded
 document.addEventListener('DOMContentLoaded', initAnalytics);

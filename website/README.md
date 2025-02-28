@@ -9,9 +9,11 @@ This is the landing page for Focustime, a corporate retreat service in Galicia, 
 - `js/main.js`: JavaScript functionality including language switching
 - `js/form-handler.js`: Supabase integration for the contact form
 - `js/supabase-config.js`: Configuration for Supabase connection
+- `js/supabase-lib.js`: Lightweight Supabase client for API interactions
+- `js/analytics.js`: Supabase analytics integration for tracking user interactions
 - `images/`: Directory for website images (placeholders currently)
 - `index-es.txt`: Spanish translations reference document
-- `supabase/`: Directory containing Supabase edge functions
+- `supabase/`: Directory containing Supabase edge functions and SQL scripts
 - `netlify.toml`: Netlify deployment configuration
 
 ## Image Placeholders
@@ -34,6 +36,21 @@ The website uses placeholder references for images. Before deploying, add real i
 - Contact form for potential partners with Supabase backend integration
 - Modern, clean aesthetic emphasizing the Galician experience
 - Email notifications for form submissions using Resend
+
+## Analytics
+
+The website includes built-in privacy-focused analytics tracking through Supabase. For setup and usage instructions, see [ANALYTICS.md](ANALYTICS.md).
+
+Features:
+- Privacy-friendly tracking (respects "Do Not Track")
+- Page views, section visibility, and form interaction tracking
+- Language preference monitoring
+- Custom SQL views for reporting
+- No cookies or third-party tracking
+
+To set up analytics:
+1. Run the SQL script in `supabase/analytics_setup.sql` in your Supabase project
+2. Analytics data will automatically be collected in the `analytics_events` table
 
 ## Form Handling
 
