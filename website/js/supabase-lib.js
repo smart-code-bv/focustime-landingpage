@@ -15,19 +15,23 @@ class SupabaseClient {
     return {
       insert: async (data, options = {}) => {
         try {
+          // Ensure data is always an array
+          const dataArray = Array.isArray(data) ? data : [data];
+          
           const response = await fetch(`${this.url}/rest/v1/${table}`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
               'apikey': this.key,
+              'Authorization': `Bearer ${this.key}`,
               'Prefer': options.returning ? 'return=representation' : 'return=minimal'
             },
-            body: JSON.stringify(data)
+            body: JSON.stringify(dataArray)
           });
           
           if (!response.ok) {
-            const error = await response.text();
-            throw new Error(`Error inserting into ${table}: ${error}`);
+            const errorText = await response.text();
+            throw new Error(`Error inserting into ${table}: ${errorText}`);
           }
           
           return options.returning ? await response.json() : { status: 'success' };

@@ -163,11 +163,13 @@ async function logEventToSupabase(eventName, eventData) {
   if (!supabaseClient) return;
   
   try {
-    await supabaseClient.from('analytics_events').insert({
+    // Our custom client expects a single object, not an array
+    const result = await supabaseClient.from('analytics_events').insert({
       event_name: eventName,
       event_data: eventData,
       created_at: new Date().toISOString()
     });
+    
     console.log(`Analytics: Event ${eventName} logged to Supabase`);
   } catch (error) {
     console.error('Analytics: Error logging to Supabase:', error);
