@@ -1,0 +1,24 @@
+{
+  "name": "focustime",
+  "version": "1.0.0",
+  "description": "Corporate retreat platform for IT teams in Galicia, Spain",
+  "main": "index.html",
+  "scripts": {
+    "start": "npx http-server . -p 8080",
+    "deploy": "netlify deploy",
+    "deploy:prod": "netlify deploy --prod"
+  },
+  "keywords": [
+    "corporate",
+    "retreat",
+    "focustime",
+    "galicia",
+    "spain"
+  ],
+  "author": "Tjaco Oostdijk",
+  "license": "UNLICENSED",
+  "devDependencies": {
+    "http-server": "^14.1.1",
+    "netlify-cli": "^17.11.1"
+  }
+}

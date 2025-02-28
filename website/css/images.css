@@ -1,0 +1,244 @@
+/* Image styling for Focustime website */
+
+/* Basic responsive image containers */
+.img-container {
+  overflow: hidden;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  position: relative;
+}
+
+/* For images filling their containers */
+.img-container img {
+  width: 100%;
+  height: auto;
+  display: block;
+  transition: transform 0.5s ease;
+}
+
+/* Subtle zoom effect on hover */
+.img-container:hover img {
+  transform: scale(1.03);
+}
+
+/* Fixed aspect ratio containers */
+.img-container.aspect-16-9 {
+  position: relative;
+  padding-top: 56.25%; /* 16:9 Aspect Ratio */
+}
+
+.img-container.aspect-4-3 {
+  position: relative;
+  padding-top: 75%; /* 4:3 Aspect Ratio */
+}
+
+.img-container.aspect-1-1 {
+  position: relative;
+  padding-top: 100%; /* 1:1 Aspect Ratio */
+}
+
+/* Position images in aspect ratio containers */
+.img-container[class*="aspect-"] img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Hero section with background image */
+.hero {
+  position: relative;
+  min-height: 80vh;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: flex;
+  align-items: center;
+  color: white;
+}
+
+/* Add direct reference to hero background image */
+header.hero.with-bg-image,
+header.hero {
+  background-image: url('../images/hero-galician-coast.jpg');
+}
+
+/* Overlay for text legibility on hero images */
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: linear-gradient(to right, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.4) 50%, rgba(0,0,0,0.1) 100%);
+  z-index: 1;
+}
+
+.hero .container {
+  position: relative;
+  z-index: 2;
+}
+
+.hero-content {
+  max-width: 600px;
+}
+
+.hero h2 {
+  font-size: 3rem;
+  margin-bottom: 1.5rem;
+  color: white;
+}
+
+.hero p {
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+@media (max-width: 768px) {
+  .hero {
+    min-height: 60vh;
+  }
+  
+  .hero h2 {
+    font-size: 2rem;
+  }
+  
+  .hero p {
+    font-size: 1rem;
+  }
+}
+
+/* Image captions */
+.img-caption {
+  font-size: 0.85rem;
+  color: #666;
+  font-style: italic;
+  margin-top: 0.5rem;
+  text-align: center;
+}
+
+/* Image gallery grid */
+.img-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  grid-gap: 1rem;
+  margin: 2rem 0;
+}
+
+.img-gallery .img-container {
+  margin-bottom: 0;
+}
+
+/* Partner images (circular) */
+.partner-img {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #fff;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+  margin-bottom: 1rem;
+}
+
+/* Feature section images */
+.feature-image {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-top: 1rem;
+  transition: transform 0.3s ease;
+}
+
+.feature-card:hover .feature-image {
+  transform: scale(1.05);
+}
+
+/* Experience section images */
+.experience-img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  border-radius: 8px 8px 0 0;
+  transition: transform 0.3s ease;
+}
+
+.experience-card:hover .experience-img {
+  opacity: 0.9;
+}
+
+/* Location section images */
+.location-img {
+  width: 50%;
+  height: 300px;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.location-card {
+  display: flex;
+  margin-bottom: 2rem;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.location-card.reverse {
+  flex-direction: row-reverse;
+}
+
+.location-description {
+  width: 50%;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+@media (max-width: 768px) {
+  .location-card, 
+  .location-card.reverse {
+    flex-direction: column;
+  }
+  
+  .location-img,
+  .location-description {
+    width: 100%;
+  }
+  
+  .location-img {
+    height: 220px;
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .img-gallery {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  }
+  
+  .partner-img {
+    width: 120px;
+    height: 120px;
+  }
+  
+  .location-card {
+    height: 250px;
+  }
+}
+
+/* Lazy loading animation */
+.lazy-load {
+  opacity: 0;
+  transition: opacity 0.3s ease-in;
+}
+
+.lazy-load.loaded {
+  opacity: 1;
+}

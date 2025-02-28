@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Focustime | Productive Team Retreats in Galicia</title>
+    <meta name="description" content="Focustime offers distraction-free corporate retreat experiences in beautiful Galicia, Spain. Perfect for team alignment, strategic planning, and focused work.">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/images.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;500;600;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <!-- Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabase.js"></script>
+    <script src="js/analytics.js"></script>
+    <script src="js/images.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+</head>
+<body>
+    <!-- Language Switcher -->
+    <div id="language-switcher">
+        <button id="language-en" class="active">EN</button>
+        <button id="language-es">ES</button>
+    </div>
+
+    <!-- Header -->
+    <header class="hero with-bg-image">
+        <div class="container">
+            <nav>
+                <div class="logo">
+                    <h1>Focustime</h1>
+                </div>
+                <div class="nav-links">
+                    <a href="#concept" class="lang-en">Concept</a>
+                    <a href="#concept" class="lang-es">Concepto</a>
+                    <a href="#experience" class="lang-en">Experience</a>
+                    <a href="#experience" class="lang-es">Experiencia</a>
+                    <a href="#locations" class="lang-en">Locations</a>
+                    <a href="#locations" class="lang-es">Ubicaciones</a>
+                    <a href="#contact" class="lang-en">Contact</a>
+                    <a href="#contact" class="lang-es">Contacto</a>
+                </div>
+                <div class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </nav>
+
+            <div class="hero-content">
+                <h2 class="lang-en">Transforming Team Focus in Galicia</h2>
+                <h2 class="lang-es">Transformando el enfoque de equipos en Galicia</h2>
+                <p class="lang-en">Professional retreats designed for productivity, creativity, and team alignment in Spain's most beautiful countryside.</p>
+                <p class="lang-es">Retiros profesionales diseñados para la productividad, creatividad y alineación de equipos en el campo más hermoso de España.</p>
+                <a href="#contact" class="btn primary-btn lang-en">Partner With Us</a>
+                <a href="#contact" class="btn primary-btn lang-es">Asóciate con nosotros</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Concept Section -->
+    <section id="concept" class="section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="lang-en">Our Concept</h2>
+                <h2 class="lang-es">Nuestro Concepto</h2>
+                <p class="lang-en">A distraction-free environment for teams to focus on what matters most.</p>
+                <p class="lang-es">Un entorno libre de distracciones para que los equipos se centren en lo más importante.</p>
+            </div>
+            
+            <div class="features">
+                <div class="feature-card">
+                    <i class="fas fa-brain"></i>
+                    <h3 class="lang-en">Deep Focus</h3>
+                    <h3 class="lang-es">Enfoque Profundo</h3>
+                    <p class="lang-en">Dedicated work environments designed to eliminate distractions and maximize productivity.</p>
+                    <p class="lang-es">Entornos de trabajo dedicados diseñados para eliminar distracciones y maximizar la productividad.</p>
+                    <div class="img-container">
+                        <img src="images/workspace.jpg" alt="Peaceful workspace" class="feature-image">
+                    </div>
+                </div>
+                
+                <div class="feature-card">
+                    <i class="fas fa-users"></i>
+                    <h3 class="lang-en">Team Alignment</h3>
+                    <h3 class="lang-es">Alineación de Equipo</h3>
+                    <p class="lang-en">Structured spaces and schedules for meaningful collaboration and alignment.</p>
+                    <p class="lang-es">Espacios y horarios estructurados para una colaboración y alineación significativas.</p>
+                    <div class="img-container">
+                        <img src="images/teamwork.jpg" alt="Teamwork" class="feature-image">
+                    </div>
+                </div>
+                
+                <div class="feature-card">
+                    <i class="fas fa-laptop-house"></i>
+                    <h3 class="lang-en">Total Peace of Mind</h3>
+                    <h3 class="lang-es">Experiencia de "Tranquilidad Total"</h3>
+                    <p class="lang-en">Complete worry-free service with every detail handled, so teams can focus entirely on work.</p>
+                    <p class="lang-es">Servicio completamente sin preocupaciones con cada detalle atendido, para que los equipos puedan concentrarse por completo en el trabajo.</p>
+                    <div class="img-container">
+                        <img src="images/relaxation.jpg" alt="Relaxation" class="feature-image">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience Section -->
+    <section id="experience" class="section bg-light">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="lang-en">The Focustime Experience</h2>
+                <h2 class="lang-es">La Experiencia Focustime</h2>
+                <p class="lang-en">Carefully crafted retreats that balance productivity with wellbeing.</p>
+                <p class="lang-es">Retiros cuidadosamente diseñados que equilibran la productividad con el bienestar.</p>
+            </div>
+            
+            <div class="experience-grid">
+                <div class="experience-card">
+                    <img src="images/productive-workspace.jpg" alt="Workspace" class="experience-img">
+                    <h3 class="lang-en">Productive Workspaces</h3>
+                    <h3 class="lang-es">Espacios de Trabajo Productivos</h3>
+                    <p class="lang-en">High-speed internet, natural light, flexible work areas, and all necessary technology.</p>
+                    <p class="lang-es">Internet de alta velocidad, luz natural, áreas de trabajo flexibles y toda la tecnología necesaria.</p>
+                </div>
+                
+                <div class="experience-card">
+                    <img src="images/accommodation.jpg" alt="Accommodation" class="experience-img">
+                    <h3 class="lang-en">Comfortable Accommodation</h3>
+                    <h3 class="lang-es">Alojamiento Confortable</h3>
+                    <p class="lang-en">Private rooms for each team member with quiet zones and rejuvenating common areas.</p>
+                    <p class="lang-es">Habitaciones privadas para cada miembro del equipo con zonas tranquilas y áreas comunes rejuvenecedoras.</p>
+                </div>
+                
+                <div class="experience-card">
+                    <img src="images/galician-cuisine.jpg" alt="Galician Cuisine" class="experience-img">
+                    <h3 class="lang-en">Galician Gastronomy</h3>
+                    <h3 class="lang-es">Gastronomía Gallega</h3>
+                    <p class="lang-en">Authentic local cuisine featuring the region's famous seafood and farm-to-table experiences.</p>
+                    <p class="lang-es">Cocina local auténtica con los famosos mariscos de la región y experiencias de la granja a la mesa.</p>
+                </div>
+                
+                <div class="experience-card">
+                    <img src="images/activities.jpg" alt="Activities" class="experience-img">
+                    <h3 class="lang-en">Balanced Activities</h3>
+                    <h3 class="lang-es">Actividades Equilibradas</h3>
+                    <p class="lang-en">Optional water sports, cultural tours, and team-building experiences to recharge creativity.</p>
+                    <p class="lang-es">Deportes acuáticos opcionales, recorridos culturales y experiencias de formación de equipos para recargar la creatividad.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Locations Section -->
+    <section id="locations" class="section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="lang-en">Our Galician Settings</h2>
+                <h2 class="lang-es">Nuestros Entornos Gallegos</h2>
+                <p class="lang-en">Carefully selected venues that combine traditional character with modern amenities.</p>
+                <p class="lang-es">Lugares cuidadosamente seleccionados que combinan el carácter tradicional con las comodidades modernas.</p>
+            </div>
+            
+            <div class="locations-showcase">
+                <div class="location-card">
+                    <img src="images/pazo.jpg" alt="Traditional Pazo" class="location-img">
+                    <div class="location-description">
+                        <h3 class="lang-en">Historic Pazos</h3>
+                        <h3 class="lang-es">Pazos Históricos</h3>
+                        <p class="lang-en">Authentic Galician manor houses with centuries of character, renovated for modern business needs.</p>
+                        <p class="lang-es">Auténticas casas señoriales gallegas con siglos de carácter, renovadas para las necesidades empresariales modernas.</p>
+                    </div>
+                </div>
+                
+                <div class="location-card reverse">
+                    <div class="location-description">
+                        <h3 class="lang-en">Coastal Retreats</h3>
+                        <h3 class="lang-es">Retiros Costeros</h3>
+                        <p class="lang-en">Properties near the stunning Rías Baixas coastline, combining sea air with workspace focus.</p>
+                        <p class="lang-es">Propiedades cerca de la impresionante costa de las Rías Baixas, combinando el aire del mar con el enfoque del espacio de trabajo.</p>
+                    </div>
+                    <img src="images/coastal.png" alt="Coastal Property" class="location-img">
+                </div>
+                
+                <div class="location-card">
+                    <img src="images/rural.png" alt="Rural Setting" class="location-img">
+                    <div class="location-description">
+                        <h3 class="lang-en">Rural Escapes</h3>
+                        <h3 class="lang-es">Escapadas Rurales</h3>
+                        <p class="lang-en">Secluded countryside venues offering complete immersion in nature while maintaining connectivity.</p>
+                        <p class="lang-es">Lugares apartados en el campo que ofrecen una inmersión completa en la naturaleza mientras mantienen la conectividad.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Partner/Contact Section -->
+    <section id="contact" class="section bg-accent">
+        <div class="container">
+            <div class="section-header light">
+                <h2 class="lang-en">Partner With Us</h2>
+                <h2 class="lang-es">Asóciate con nosotros</h2>
+                <p class="lang-en">We're looking for exceptional properties and service providers across Galicia.</p>
+                <p class="lang-es">Estamos buscando propiedades y proveedores de servicios excepcionales en toda Galicia.</p>
+            </div>
+            
+            <div class="partner-types">
+                <div class="partner-card">
+                    <i class="fas fa-home"></i>
+                    <h3 class="lang-en">Property Owners</h3>
+                    <h3 class="lang-es">Propietarios</h3>
+                    <p class="lang-en">If you own a pazo, villa, or unique property that could host 5-10 person professional retreats.</p>
+                    <p class="lang-es">Si posee un pazo, villa o propiedad única que podría albergar retiros profesionales de 5-10 personas.</p>
+                </div>
+                
+                <div class="partner-card">
+                    <i class="fas fa-utensils"></i>
+                    <h3 class="lang-en">Culinary Partners</h3>
+                    <h3 class="lang-es">Socios Culinarios</h3>
+                    <p class="lang-en">Chefs and catering services specializing in authentic Galician cuisine for group experiences.</p>
+                    <p class="lang-es">Chefs y servicios de catering especializados en auténtica cocina gallega para experiencias grupales.</p>
+                </div>
+                
+                <div class="partner-card">
+                    <i class="fas fa-water"></i>
+                    <h3 class="lang-en">Activity Providers</h3>
+                    <h3 class="lang-es">Proveedores de Actividades</h3>
+                    <p class="lang-en">Companies offering water sports, cultural tours, or unique Galician experiences.</p>
+                    <p class="lang-es">Empresas que ofrecen deportes acuáticos, tours culturales o experiencias gallegas únicas.</p>
+                </div>
+            </div>
+            
+            <div class="contact-form-container">
+                <form id="contact-form" class="contact-form" netlify name="partner-inquiry" data-netlify="true">
+                    <input type="hidden" name="form-name" value="partner-inquiry">
+                    <div class="form-group">
+                        <label for="name" class="lang-en">Name</label>
+                        <label for="name" class="lang-es">Nombre</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email" class="lang-en">Email</label>
+                        <label for="email" class="lang-es">Correo electrónico</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="phone" class="lang-en">Phone (optional)</label>
+                        <label for="phone" class="lang-es">Teléfono (opcional)</label>
+                        <input type="tel" id="phone" name="phone">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="partner-type" class="lang-en">Partner Type</label>
+                        <label for="partner-type" class="lang-es">Tipo de Socio</label>
+                        <select id="partner-type" name="partner-type" required>
+                            <option value="" class="lang-en">Select an option</option>
+                            <option value="" class="lang-es">Seleccione una opción</option>
+                            <option value="property" class="lang-en">Property Owner</option>
+                            <option value="property" class="lang-es">Propietario</option>
+                            <option value="culinary" class="lang-en">Culinary Service</option>
+                            <option value="culinary" class="lang-es">Servicio Culinario</option>
+                            <option value="activity" class="lang-en">Activity Provider</option>
+                            <option value="activity" class="lang-es">Proveedor de Actividades</option>
+                            <option value="other" class="lang-en">Other</option>
+                            <option value="other" class="lang-es">Otro</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group full-width">
+                        <label for="message" class="lang-en">Tell us about your property or services</label>
+                        <label for="message" class="lang-es">Cuéntenos sobre su propiedad o servicios</label>
+                        <textarea id="message" name="message" rows="4" required></textarea>
+                    </div>
+                    
+                    <div class="form-group full-width submit-container">
+                        <button type="submit" class="contact-submit-btn lang-en">
+                            <span>Join Our Network</span>
+                        </button>
+                        <button type="submit" class="contact-submit-btn lang-es">
+                            <span>Únase a Nuestra Red</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <h3>Focustime</h3>
+                    <p class="lang-en">Transforming team productivity in Galicia</p>
+                    <p class="lang-es">Transformando la productividad del equipo en Galicia</p>
+                </div>
+                
+                <div class="footer-links">
+                    <h4 class="lang-en">Quick Links</h4>
+                    <h4 class="lang-es">Enlaces Rápidos</h4>
+                    <a href="#concept" class="lang-en">Our Concept</a>
+                    <a href="#concept" class="lang-es">Nuestro Concepto</a>
+                    <a href="#experience" class="lang-en">Experience</a>
+                    <a href="#experience" class="lang-es">Experiencia</a>
+                    <a href="#locations" class="lang-en">Locations</a>
+                    <a href="#locations" class="lang-es">Ubicaciones</a>
+                    <a href="#contact" class="lang-en">Partner With Us</a>
+                    <a href="#contact" class="lang-es">Asóciate con Nosotros</a>
+                </div>
+                
+                <div class="footer-contact">
+                    <h4 class="lang-en">Contact</h4>
+                    <h4 class="lang-es">Contacto</h4>
+                    <p><i class="fas fa-envelope"></i> tjaco@focustime.io</p>
+                    <p><i class="fas fa-phone"></i> +31 626 904 816</p>
+                    <div class="social-icons">
+                        <a href="https://www.linkedin.com/in/tjaco-oostdijk/"><i class="fab fa-linkedin"></i></a>
+                        <a href="https://twitter.com/drumusician"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2025 Focustime. <span class="lang-en">All rights reserved.</span><span class="lang-es">Todos los derechos reservados.</span></p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/language-switcher.js"></script>
+    <script src="js/images.js"></script>
+    <script src="js/form-handler.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>

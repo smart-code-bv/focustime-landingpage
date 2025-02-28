@@ -1,0 +1,84 @@
+# Spanish Translation Reference Document
+
+This document contains all Spanish translations that are already integrated into the main index.html file.
+It is provided as a reference for any future content updates.
+
+## Page Title & Meta
+- Title: Focustime | Retiros productivos para equipos en Galicia
+- Description: Focustime ofrece experiencias de retiro corporativo sin distracciones en la hermosa Galicia, España. Perfecto para la alineación del equipo, la planificación estratégica y el trabajo enfocado.
+
+## Navigation
+- Concepto
+- Experiencia
+- Ubicaciones
+- Contacto
+
+## Hero Section
+- Transformando el enfoque de equipos en Galicia
+- Retiros profesionales diseñados para la productividad, creatividad y alineación de equipos en el campo más hermoso de España.
+- Asóciate con nosotros
+
+## Concept Section
+- Nuestro Concepto
+- Un entorno libre de distracciones para que los equipos se centren en lo más importante.
+- Enfoque Profundo
+- Entornos de trabajo dedicados diseñados para eliminar distracciones y maximizar la productividad.
+- Alineación de Equipo
+- Espacios y horarios estructurados para una colaboración y alineación significativas.
+- Experiencia "Ontzorgen"
+- Servicio completamente sin preocupaciones con cada detalle atendido, para que los equipos puedan concentrarse por completo en el trabajo.
+
+## Experience Section
+- La Experiencia Focustime
+- Retiros cuidadosamente diseñados que equilibran la productividad con el bienestar.
+- Espacios de Trabajo Productivos
+- Internet de alta velocidad, luz natural, áreas de trabajo flexibles y toda la tecnología necesaria.
+- Alojamiento Confortable
+- Habitaciones privadas para cada miembro del equipo con zonas tranquilas y áreas comunes rejuvenecedoras.
+- Gastronomía Gallega
+- Cocina local auténtica con los famosos mariscos de la región y experiencias de la granja a la mesa.
+- Actividades Equilibradas
+- Deportes acuáticos opcionales, recorridos culturales y experiencias de formación de equipos para recargar la creatividad.
+
+## Locations Section
+- Nuestros Entornos Gallegos
+- Lugares cuidadosamente seleccionados que combinan el carácter tradicional con las comodidades modernas.
+- Pazos Históricos
+- Auténticas casas señoriales gallegas con siglos de carácter, renovadas para las necesidades empresariales modernas.
+- Retiros Costeros
+- Propiedades cerca de la impresionante costa de las Rías Baixas, combinando el aire del mar con el enfoque del espacio de trabajo.
+- Escapadas Rurales
+- Lugares apartados en el campo que ofrecen una inmersión completa en la naturaleza mientras mantienen la conectividad.
+
+## Partner Section
+- Asóciate con nosotros
+- Estamos buscando propiedades y proveedores de servicios excepcionales en toda Galicia.
+- Propietarios
+- Si posee un pazo, villa o propiedad única que podría albergar retiros profesionales de 5-10 personas.
+- Socios Culinarios
+- Chefs y servicios de catering especializados en auténtica cocina gallega para experiencias grupales.
+- Proveedores de Actividades
+- Empresas que ofrecen deportes acuáticos, tours culturales o experiencias gallegas únicas.
+
+## Contact Form
+- Nombre
+- Correo electrónico
+- Teléfono (opcional)
+- Tipo de Socio
+- Seleccione una opción
+- Propietario
+- Servicio Culinario
+- Proveedor de Actividades
+- Otro
+- Cuéntenos sobre su propiedad o servicios
+- Enviar
+
+## Footer
+- Transformando la productividad del equipo en Galicia
+- Enlaces Rápidos
+- Nuestro Concepto
+- Experiencia
+- Ubicaciones
+- Asóciate con Nosotros
+- Contacto
+- Todos los derechos reservados.
