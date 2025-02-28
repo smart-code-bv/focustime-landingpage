@@ -60,31 +60,37 @@ function createLocationCards(locations, containerId) {
 }
 
 // Example location data (to be replaced with real data)
-const sampleLocations = [
-  {
-    title: 'Villa Zuniga',
-    description: 'Traditional villa with modern amenities in a secluded setting',
-    image: 'images/villa-zuniga.jpg'
-  },
-  {
-    title: 'Pazo de la Parda',
-    description: 'Historic manor house surrounded by lush gardens',
-    image: 'images/pazo-parda.jpg'
-  },
-  {
-    title: 'Pazo de Cea',
-    description: 'Elegant countryside retreat with panoramic views',
-    image: 'images/pazo-cea.jpg'
-  }
-];
+// Only define if it doesn't already exist
+if (typeof window.sampleLocations === 'undefined') {
+  window.sampleLocations = [
+    {
+      title: 'Villa Zuniga',
+      description: 'Traditional villa with modern amenities in a secluded setting',
+      image: 'images/villa-zuniga.jpg'
+    },
+    {
+      title: 'Pazo de la Parda',
+      description: 'Historic manor house surrounded by lush gardens',
+      image: 'images/pazo-parda.jpg'
+    },
+    {
+      title: 'Pazo de Cea',
+      description: 'Elegant countryside retreat with panoramic views',
+      image: 'images/pazo-cea.jpg'
+    }
+  ];
+}
 
 // Initialize when document loads
 document.addEventListener('DOMContentLoaded', function() {
   // Initialize lazy loading
   initLazyLoading();
   
-  // Create location cards
-  // createLocationCards(sampleLocations, 'location-container');
+  // Create location cards only if the container exists
+  // const locationContainer = document.getElementById('location-container');
+  // if (locationContainer) {
+  //   createLocationCards(window.sampleLocations, 'location-container');
+  // }
 });
 
 // Update images when language changes

@@ -235,8 +235,9 @@
             </div>
             
             <div class="contact-form-container">
-                <form id="contact-form" class="contact-form" netlify name="partner-inquiry" data-netlify="true">
+                <form id="contact-form" class="contact-form" name="partner-inquiry" data-netlify="true" netlify>
                     <input type="hidden" name="form-name" value="partner-inquiry">
+                    <input type="hidden" name="bot-field" aria-hidden="true">
                     <div class="form-group">
                         <label for="name" class="lang-en">Name</label>
                         <label for="name" class="lang-es">Nombre</label>
@@ -334,7 +335,7 @@
 
     <script src="js/language-switcher.js"></script>
     <script src="js/images.js"></script>
-    <script src="js/form-handler.js"></script>
+    <script type="module" src="js/form-handler.js"></script>
     <script src="js/main.js"></script>
 </body>
 </html>

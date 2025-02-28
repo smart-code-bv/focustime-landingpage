@@ -1,11 +1,23 @@
 // Form submission handler for Focustime contact form
 import supabaseConfig from './supabase-config.js';
+import { createClient } from './supabase-lib.js';
 
 document.addEventListener('DOMContentLoaded', function() {
   const contactForm = document.getElementById('contact-form');
+  if (!contactForm) return;
+
   const submitButtons = contactForm.querySelectorAll('button[type="submit"]');
   
-  if (!contactForm) return;
+  // Initialize Supabase client
+  let supabaseClient = null;
+  try {
+    if (supabaseConfig.url && supabaseConfig.anonKey) {
+      supabaseClient = createClient(supabaseConfig.url, supabaseConfig.anonKey);
+      console.log('Supabase client initialized successfully');
+    }
+  } catch (error) {
+    console.error('Error initializing Supabase client:', error);
+  }
   
   // Get current language
   function getCurrentLanguage() {
@@ -20,8 +32,8 @@ document.addEventListener('DOMContentLoaded', function() {
     loading.classList.add('form-loading');
     loading.innerHTML = `
       <div class="loading-spinner"></div>
-      <p class="lang-en">Sending your information...</p>
-      <p class="lang-es">Enviando su información...</p>
+      <p class="lang-en">Sending your message...</p>
+      <p class="lang-es">Enviando su mensaje...</p>
     `;
     return loading;
   }
@@ -29,18 +41,25 @@ document.addEventListener('DOMContentLoaded', function() {
   // Show thank you message
   function showThankYouMessage(formContainer) {
     const thankYou = document.createElement('div');
-    thankYou.classList.add('form-thank-you');
+    thankYou.classList.add('form-success');
     thankYou.innerHTML = `
-      <h3 class="lang-en">Thank You!</h3>
-      <h3 class="lang-es">¡Gracias!</h3>
-      <p class="lang-en">Your message has been sent. We'll be in touch soon!</p>
-      <p class="lang-es">Su mensaje ha sido enviado. ¡Nos pondremos en contacto pronto!</p>
+      <h3 class="lang-en">Thank you for your message!</h3>
+      <h3 class="lang-es">¡Gracias por su mensaje!</h3>
+      <p class="lang-en">We'll be in touch soon to discuss partnership opportunities.</p>
+      <p class="lang-es">Nos pondremos en contacto pronto para discutir oportunidades de colaboración.</p>
+      <button class="contact-submit-btn another-message-btn lang-en">Send Another Message</button>
+      <button class="contact-submit-btn another-message-btn lang-es">Enviar Otro Mensaje</button>
     `;
     
     // Apply current language
     const currentLang = getCurrentLanguage();
     thankYou.querySelectorAll(`.lang-${currentLang === 'es' ? 'en' : 'es'}`).forEach(el => {
       el.style.display = 'none';
+    });
+    
+    // Add another message button handler
+    thankYou.querySelector('.another-message-btn').addEventListener('click', function() {
+      window.location.reload();
     });
     
     formContainer.innerHTML = '';
@@ -109,22 +128,43 @@ document.addEventListener('DOMContentLoaded', function() {
     };
     
     try {
-      // First, store in Supabase database
-      const supabaseUrl = supabaseConfig.url;
-      const supabaseAnonKey = supabaseConfig.anonKey;
+      let useNetlifyFallback = true;
       
-      const dbRes = await fetch(`${supabaseUrl}/rest/v1/contact_submissions`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'apikey': supabaseAnonKey,
-          'Prefer': 'return=minimal'
-        },
-        body: JSON.stringify(formObject)
-      });
+      // Try to use Supabase first if client is available
+      if (supabaseClient) {
+        try {
+          await supabaseClient.from('contact_submissions').insert(formObject);
+          useNetlifyFallback = false;
+          console.log('Form submitted to Supabase successfully');
+        } catch (supabaseError) {
+          console.error('Supabase submission failed:', supabaseError);
+          // Continue to Netlify fallback
+        }
+      }
       
-      if (!dbRes.ok) {
-        throw new Error('Failed to store submission in database');
+      // Use Netlify Forms as fallback
+      if (useNetlifyFallback) {
+        console.log('Using Netlify Forms fallback');
+        if (contactForm.getAttribute('netlify') || contactForm.getAttribute('data-netlify')) {
+          // Submit the form natively to use Netlify Forms
+          const netlifyForm = document.createElement('form');
+          netlifyForm.method = 'post';
+          netlifyForm.action = '/';
+          netlifyForm.style.display = 'none';
+          netlifyForm.innerHTML = `
+            <input type="hidden" name="form-name" value="partner-inquiry">
+            <input type="hidden" name="name" value="${formObject.name}">
+            <input type="hidden" name="email" value="${formObject.email}">
+            <input type="hidden" name="phone" value="${formObject.phone || ''}">
+            <input type="hidden" name="partner-type" value="${formObject.partner_type || ''}">
+            <input type="hidden" name="message" value="${formObject.message}">
+            <input type="hidden" name="language" value="${formObject.language}">
+          `;
+          document.body.appendChild(netlifyForm);
+          netlifyForm.submit();
+        } else {
+          throw new Error('Netlify Forms not configured');
+        }
       }
       
       // Show success message
@@ -132,7 +172,7 @@ document.addEventListener('DOMContentLoaded', function() {
       
     } catch (error) {
       console.error('Form submission error:', error);
-      showErrorMessage(formContainer, error.message);
+      showErrorMessage(formContainer, error.message || 'Unknown error occurred');
     }
   }
   
@@ -175,12 +215,12 @@ document.addEventListener('DOMContentLoaded', function() {
       to { transform: rotate(360deg); }
     }
     
-    .form-thank-you, .form-error {
+    .form-success, .form-error {
       text-align: center;
       padding: 40px 20px;
     }
     
-    .form-thank-you h3, .form-error h3 {
+    .form-success h3, .form-error h3 {
       font-size: 1.8rem;
       color: var(--primary-color);
       margin-bottom: 20px;
