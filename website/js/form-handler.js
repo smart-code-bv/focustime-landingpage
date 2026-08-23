@@ -1,248 +1,206 @@
-// Form submission handler for Focustime contact form
+// Contact form handling for both the team enquiry (index) and the partner
+// enquiry (partners.html).
+//
+// Delivery is layered so a submission is never lost to one backend being
+// unavailable:
+//   1. Supabase, into the table for this form
+//   2. Supabase, into the legacy contact_submissions table (team form only)
+//   3. Netlify Forms, posted over fetch
+//   4. Give up loudly and show the email address
 import supabaseConfig from './supabase-config.js';
 import { createClient } from './supabase-lib.js';
 
-document.addEventListener('DOMContentLoaded', function() {
-  const contactForm = document.getElementById('contact-form');
-  if (!contactForm) return;
+const CONTACT_EMAIL = 'tjaco@focustime.io';
 
-  const submitButtons = contactForm.querySelectorAll('button[type="submit"]');
-  
-  // Initialize Supabase client
-  let supabaseClient = null;
-  try {
-    if (supabaseConfig.url && supabaseConfig.anonKey) {
-      supabaseClient = createClient(supabaseConfig.url, supabaseConfig.anonKey);
-      console.log('Supabase client initialized successfully');
-    }
-  } catch (error) {
-    console.error('Error initializing Supabase client:', error);
+// The Spanish partner page (socios.html) reuses the same form config and marks
+// itself with a hidden `language` field.
+const COPY = {
+  en: {
+    sending: 'Sending…',
+    errorBefore: 'That didn’t send — something on our end. Please email ',
+    errorAfter: ' and we’ll pick it up from there.',
+  },
+  es: {
+    sending: 'Enviando…',
+    errorBefore: 'No se ha podido enviar; el fallo es nuestro. Escribe a ',
+    errorAfter: ' y seguimos por ahí.',
+  },
+};
+
+const languageOf = (formData) => (formData.get('language') === 'es' ? 'es' : 'en');
+
+/** Per-form config: which table, and how to shape the row. */
+const FORMS = {
+  'team-form': {
+    table: 'team_enquiries',
+    row: (f) => ({
+      name: f.get('name'),
+      email: f.get('email'),
+      company: f.get('company'),
+      team_size: f.get('team_size'),
+      topic: f.get('topic'),
+      timing: f.get('timing') || null,
+    }),
+    // The original table predates this form; used only if team_enquiries is missing.
+    legacy: (f) => ({
+      name: f.get('name'),
+      email: f.get('email'),
+      phone: null,
+      partner_type: 'team-enquiry',
+      message: [
+        `Company: ${f.get('company')}`,
+        `Team size: ${f.get('team_size')}`,
+        `Timing: ${f.get('timing') || 'not given'}`,
+        '',
+        f.get('topic'),
+      ].join('\n'),
+      language: 'en',
+    }),
+    done: () => ({
+      title: 'Thanks — that landed.',
+      body: `I’ll come back to you personally, usually within a couple of days. If it’s urgent, email ${CONTACT_EMAIL}.`,
+    }),
+  },
+
+  'partner-form': {
+    table: 'contact_submissions',
+    row: (f) => ({
+      name: f.get('name'),
+      email: f.get('email'),
+      phone: f.get('phone') || null,
+      partner_type: f.get('partner-type'),
+      message: f.get('message'),
+      // Set by a hidden field, so partners.html and socios.html share this config.
+      language: f.get('language') || 'en',
+    }),
+    done: (f) =>
+      f.get('language') === 'es'
+        ? {
+            title: 'Gracias — nos ha llegado.',
+            body: `Te contestamos personalmente. Si es urgente, escribe a ${CONTACT_EMAIL}.`,
+          }
+        : {
+            title: 'Thanks — that landed.',
+            body: `We’ll be in touch. If it’s urgent, email ${CONTACT_EMAIL}.`,
+          },
+  },
+};
+
+let supabase = null;
+try {
+  if (supabaseConfig.url && supabaseConfig.anonKey) {
+    supabase = createClient(supabaseConfig.url, supabaseConfig.anonKey);
   }
-  
-  // Get current language
-  function getCurrentLanguage() {
-    // Check which language buttons are visible
-    const isSpanish = document.querySelector('.lang-es').style.display !== 'none';
-    return isSpanish ? 'es' : 'en';
-  }
-  
-  // Create loading indicator
-  function createLoadingIndicator() {
-    const loading = document.createElement('div');
-    loading.classList.add('form-loading');
-    loading.innerHTML = `
-      <div class="loading-spinner"></div>
-      <p class="lang-en">Sending your message...</p>
-      <p class="lang-es">Enviando su mensaje...</p>
-    `;
-    return loading;
-  }
-  
-  // Show thank you message
-  function showThankYouMessage(formContainer) {
-    const thankYou = document.createElement('div');
-    thankYou.classList.add('form-success');
-    thankYou.innerHTML = `
-      <h3 class="lang-en">Thank you for your message!</h3>
-      <h3 class="lang-es">¡Gracias por su mensaje!</h3>
-      <p class="lang-en">We'll be in touch soon to discuss partnership opportunities.</p>
-      <p class="lang-es">Nos pondremos en contacto pronto para discutir oportunidades de colaboración.</p>
-      <button class="contact-submit-btn another-message-btn lang-en">Send Another Message</button>
-      <button class="contact-submit-btn another-message-btn lang-es">Enviar Otro Mensaje</button>
-    `;
-    
-    // Apply current language
-    const currentLang = getCurrentLanguage();
-    thankYou.querySelectorAll(`.lang-${currentLang === 'es' ? 'en' : 'es'}`).forEach(el => {
-      el.style.display = 'none';
-    });
-    
-    // Add another message button handler
-    thankYou.querySelector('.another-message-btn').addEventListener('click', function() {
-      window.location.reload();
-    });
-    
-    formContainer.innerHTML = '';
-    formContainer.appendChild(thankYou);
-  }
-  
-  // Show error message
-  function showErrorMessage(formContainer, error) {
-    const errorElement = document.createElement('div');
-    errorElement.classList.add('form-error');
-    errorElement.innerHTML = `
-      <h3 class="lang-en">Something went wrong</h3>
-      <h3 class="lang-es">Algo salió mal</h3>
-      <p class="lang-en">We couldn't send your message. Please try again later.</p>
-      <p class="lang-es">No pudimos enviar su mensaje. Por favor, inténtelo de nuevo más tarde.</p>
-      <p class="error-details">${error}</p>
-      <button class="contact-submit-btn try-again-btn lang-en">Try Again</button>
-      <button class="contact-submit-btn try-again-btn lang-es">Intentar de nuevo</button>
-    `;
-    
-    // Apply current language
-    const currentLang = getCurrentLanguage();
-    errorElement.querySelectorAll(`.lang-${currentLang === 'es' ? 'en' : 'es'}`).forEach(el => {
-      el.style.display = 'none';
-    });
-    
-    // Add try again button handler
-    errorElement.querySelector('.try-again-btn').addEventListener('click', function() {
-      window.location.reload();
-    });
-    
-    formContainer.innerHTML = '';
-    formContainer.appendChild(errorElement);
-  }
-  
-  // Handle form submission
-  async function handleFormSubmit(event) {
-    event.preventDefault();
-    
-    const formContainer = contactForm.closest('.contact-form-container');
-    const loadingIndicator = createLoadingIndicator();
-    
-    // Apply current language to loading indicator
-    const currentLang = getCurrentLanguage();
-    loadingIndicator.querySelectorAll(`.lang-${currentLang === 'es' ? 'en' : 'es'}`).forEach(el => {
-      el.style.display = 'none';
-    });
-    
-    // Show loading indicator
-    formContainer.appendChild(loadingIndicator);
-    
-    // Disable submit buttons
-    submitButtons.forEach(btn => {
-      btn.disabled = true;
-    });
-    
-    // Get form data
-    const formData = new FormData(contactForm);
-    const formObject = {
-      name: formData.get('name'),
-      email: formData.get('email'),
-      phone: formData.get('phone'),
-      partner_type: formData.get('partner-type'),
-      message: formData.get('message'),
-      language: currentLang
-    };
-    
-    try {
-      let useNetlifyFallback = true;
-      
-      // Try to use Supabase first if client is available
-      if (supabaseClient) {
-        try {
-          await supabaseClient.from('contact_submissions').insert(formObject);
-          useNetlifyFallback = false;
-          console.log('Form submitted to Supabase successfully');
-        } catch (supabaseError) {
-          console.error('Supabase submission failed:', supabaseError);
-          // Continue to Netlify fallback
-        }
-      }
-      
-      // Use Netlify Forms as fallback
-      if (useNetlifyFallback) {
-        console.log('Using Netlify Forms fallback');
-        if (contactForm.getAttribute('netlify') || contactForm.getAttribute('data-netlify')) {
-          // Submit the form natively to use Netlify Forms
-          const netlifyForm = document.createElement('form');
-          netlifyForm.method = 'post';
-          netlifyForm.action = '/';
-          netlifyForm.style.display = 'none';
-          netlifyForm.innerHTML = `
-            <input type="hidden" name="form-name" value="partner-inquiry">
-            <input type="hidden" name="name" value="${formObject.name}">
-            <input type="hidden" name="email" value="${formObject.email}">
-            <input type="hidden" name="phone" value="${formObject.phone || ''}">
-            <input type="hidden" name="partner-type" value="${formObject.partner_type || ''}">
-            <input type="hidden" name="message" value="${formObject.message}">
-            <input type="hidden" name="language" value="${formObject.language}">
-          `;
-          document.body.appendChild(netlifyForm);
-          netlifyForm.submit();
-        } else {
-          throw new Error('Netlify Forms not configured');
-        }
-      }
-      
-      // Show success message
-      showThankYouMessage(formContainer);
-      
-    } catch (error) {
-      console.error('Form submission error:', error);
-      showErrorMessage(formContainer, error.message || 'Unknown error occurred');
-    }
-  }
-  
-  // Add event listeners to both EN and ES submit buttons
-  submitButtons.forEach(button => {
-    button.addEventListener('click', handleFormSubmit);
+} catch (error) {
+  console.error('Supabase client unavailable:', error);
+}
+
+/** Post the raw form to Netlify Forms without navigating away. */
+async function submitToNetlify(form, formData) {
+  if (!form.hasAttribute('data-netlify')) throw new Error('Netlify Forms not configured');
+
+  const body = new URLSearchParams();
+  formData.forEach((value, key) => {
+    if (typeof value === 'string') body.append(key, value);
   });
-});
 
-// Add CSS for loading, thank you, and error states
-document.addEventListener('DOMContentLoaded', function() {
-  const style = document.createElement('style');
-  style.textContent = `
-    .form-loading {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(255, 255, 255, 0.9);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      z-index: 10;
-      border-radius: 12px;
+  const response = await fetch('/', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: body.toString(),
+  });
+
+  if (!response.ok) throw new Error(`Netlify Forms returned ${response.status}`);
+}
+
+async function deliver(config, form, formData) {
+  const attempts = [];
+
+  if (supabase) {
+    attempts.push(() => supabase.from(config.table).insert(config.row(formData)));
+    if (config.legacy) {
+      attempts.push(() => supabase.from('contact_submissions').insert(config.legacy(formData)));
     }
-    
-    .loading-spinner {
-      width: 50px;
-      height: 50px;
-      border: 5px solid rgba(0, 0, 0, 0.1);
-      border-radius: 50%;
-      border-top-color: var(--primary-color);
-      animation: spin 1s ease-in-out infinite;
-      margin-bottom: 20px;
+  }
+  attempts.push(() => submitToNetlify(form, formData));
+
+  let lastError = new Error('No delivery method available');
+  for (const attempt of attempts) {
+    try {
+      await attempt();
+      return;
+    } catch (error) {
+      console.warn('Submission attempt failed:', error);
+      lastError = error;
     }
-    
-    @keyframes spin {
-      to { transform: rotate(360deg); }
+  }
+  throw lastError;
+}
+
+function showDone(form, done) {
+  const region = form.parentElement;
+  const panel = document.createElement('div');
+  panel.className = 'form-done';
+  panel.setAttribute('role', 'status');
+
+  const heading = document.createElement('h3');
+  heading.textContent = done.title;
+
+  const body = document.createElement('p');
+  body.textContent = done.body;
+
+  panel.append(heading, body);
+  region.replaceChildren(panel);
+  panel.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+function showError(statusEl, lang) {
+  const copy = COPY[lang];
+  statusEl.className = 'form__status form__status--error';
+  statusEl.replaceChildren(document.createTextNode(copy.errorBefore));
+  const link = document.createElement('a');
+  link.className = 'link';
+  link.href = `mailto:${CONTACT_EMAIL}`;
+  link.textContent = CONTACT_EMAIL;
+  statusEl.append(link, document.createTextNode(copy.errorAfter));
+  statusEl.hidden = false;
+}
+
+function initForm(form) {
+  const config = FORMS[form.id];
+  if (!config) return;
+
+  const submitButton = form.querySelector('button[type="submit"]');
+  const statusEl = form.querySelector('.form__status');
+  const originalLabel = submitButton ? submitButton.innerHTML : '';
+
+  form.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    if (!form.reportValidity()) return;
+
+    const formData = new FormData(form);
+    if (formData.get('bot-field')) return; // honeypot tripped; pretend nothing happened
+
+    const lang = languageOf(formData);
+
+    statusEl.hidden = true;
+    if (submitButton) {
+      submitButton.setAttribute('aria-busy', 'true');
+      submitButton.textContent = COPY[lang].sending;
     }
-    
-    .form-success, .form-error {
-      text-align: center;
-      padding: 40px 20px;
+
+    try {
+      await deliver(config, form, formData);
+      showDone(form, config.done(formData));
+    } catch (error) {
+      console.error('Form submission failed:', error);
+      showError(statusEl, lang);
+      if (submitButton) {
+        submitButton.removeAttribute('aria-busy');
+        submitButton.innerHTML = originalLabel;
+      }
     }
-    
-    .form-success h3, .form-error h3 {
-      font-size: 1.8rem;
-      color: var(--primary-color);
-      margin-bottom: 20px;
-    }
-    
-    .form-error h3 {
-      color: #e74c3c;
-    }
-    
-    .error-details {
-      font-size: 0.8rem;
-      color: #777;
-      margin: 20px 0;
-      padding: 10px;
-      background: #f8f8f8;
-      border-radius: 4px;
-    }
-    
-    .try-again-btn {
-      margin-top: 20px;
-    }
-  `;
-  
-  document.head.appendChild(style);
-});
+  });
+}
+
+document.querySelectorAll('form[id]').forEach(initForm);

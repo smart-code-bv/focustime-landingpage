@@ -1,50 +1,45 @@
-// Supabase JavaScript library (https://github.com/supabase/supabase-js)
-// This is a minimal version with only the functionality we need
+// Minimal Supabase REST client — just the insert we need, no dependency.
+// See https://github.com/supabase/supabase-js for the real thing.
 
 class SupabaseClient {
-  constructor(supabaseUrl, supabaseKey, options = {}) {
-    this.url = supabaseUrl;
+  constructor(supabaseUrl, supabaseKey) {
+    if (!supabaseUrl) throw new Error('supabaseUrl is required');
+    if (!supabaseKey) throw new Error('supabaseKey is required');
+    this.url = supabaseUrl.replace(/\/$/, '');
     this.key = supabaseKey;
-    this.options = options;
-    
-    if (!this.url) throw new Error('supabaseUrl is required');
-    if (!this.key) throw new Error('supabaseKey is required');
   }
-  
-  async from(table) {
+
+  // NOTE: not async. `client.from(t).insert(...)` has to chain, so this must
+  // return the object itself rather than a promise of one.
+  from(table) {
+    const { url, key } = this;
+
     return {
-      insert: async (data, options = {}) => {
-        try {
-          // Ensure data is always an array
-          const dataArray = Array.isArray(data) ? data : [data];
-          
-          const response = await fetch(`${this.url}/rest/v1/${table}`, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'apikey': this.key,
-              'Authorization': `Bearer ${this.key}`,
-              'Prefer': options.returning ? 'return=representation' : 'return=minimal'
-            },
-            body: JSON.stringify(dataArray)
-          });
-          
-          if (!response.ok) {
-            const errorText = await response.text();
-            throw new Error(`Error inserting into ${table}: ${errorText}`);
-          }
-          
-          return options.returning ? await response.json() : { status: 'success' };
-        } catch (error) {
-          console.error('Supabase error:', error);
-          throw error;
+      async insert(data, options = {}) {
+        const rows = Array.isArray(data) ? data : [data];
+
+        const response = await fetch(`${url}/rest/v1/${table}`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            apikey: key,
+            Authorization: `Bearer ${key}`,
+            Prefer: options.returning ? 'return=representation' : 'return=minimal',
+          },
+          body: JSON.stringify(rows),
+        });
+
+        if (!response.ok) {
+          const detail = await response.text().catch(() => '');
+          throw new Error(`Insert into ${table} failed (${response.status}): ${detail}`);
         }
-      }
+
+        return options.returning ? response.json() : { status: 'success' };
+      },
     };
   }
 }
 
-// Export the createClient function
-export function createClient(supabaseUrl, supabaseKey, options = {}) {
-  return new SupabaseClient(supabaseUrl, supabaseKey, options);
+export function createClient(supabaseUrl, supabaseKey) {
+  return new SupabaseClient(supabaseUrl, supabaseKey);
 }

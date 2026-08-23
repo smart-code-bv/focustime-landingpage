@@ -1,340 +1,415 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Focustime | Productive Team Retreats in Galicia</title>
-    <meta name="description" content="Focustime offers distraction-free corporate retreat experiences in beautiful Galicia, Spain. Perfect for team alignment, strategic planning, and focused work.">
-    <link rel="stylesheet" href="css/styles.css">
-    <link rel="stylesheet" href="css/images.css">
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;500;600;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
-    <!-- Font Awesome -->
-    <!-- Supabase -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="js/supabase.js"></script>
-    <script src="js/images.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Focustime — five-day focus weeks for software teams in rural Galicia</title>
+<meta name="description" content="A five-day focus week for software teams in rural Galicia. Monday morning to Friday evening, 8 to 14 people, €1,100 per person. Fibre internet, all meals, transport — nothing to arrange but your own flight.">
+<link rel="canonical" href="https://focustime.io/">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Focustime">
+<meta property="og:url" content="https://focustime.io/">
+<meta property="og:title" content="You keep the work. We take away everything else.">
+<meta property="og:description" content="A five-day focus week for software teams in rural Galicia. Mon–Fri, 8–14 people, €1,100 per person excluding flights. Nothing to arrange but your own flight.">
+<meta property="og:image" content="https://focustime.io/images/og-focustime.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="The Sil canyon in the Ribeira Sacra, inland Galicia">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="You keep the work. We take away everything else.">
+<meta name="twitter:description" content="A five-day focus week for software teams in rural Galicia. Mon–Fri, 8–14 people, €1,100 per person excluding flights.">
+<meta name="twitter:image" content="https://focustime.io/images/og-focustime.jpg">
+
+<meta name="theme-color" content="#1f3a2e">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="image" href="images/sil-canyon-1800.jpg"
+      imagesrcset="images/sil-canyon-1100.jpg 1100w, images/sil-canyon-1800.jpg 1800w" imagesizes="100vw">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,300..500;1,6..72,300..500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-    <!-- Language Switcher -->
-    <div id="language-switcher">
-        <button id="language-en" class="active">EN</button>
-        <button id="language-es">ES</button>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header" id="site-header">
+  <div class="site-header__inner">
+    <a class="wordmark" href="/">Focustime</a>
+    <nav class="site-nav" aria-label="Main">
+      <a href="#week">The week</a>
+      <a href="#galicia">Galicia</a>
+      <a href="#included">What’s included</a>
+      <a href="#host">Who</a>
+    </nav>
+    <a class="btn btn--header" href="#plan" data-cta="header">Plan a week</a>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- ── Hero ────────────────────────────────────────────────────────────── -->
+  <section class="hero">
+    <div class="hero__media">
+      <img src="images/sil-canyon-1800.jpg"
+           srcset="images/sil-canyon-1100.jpg 1100w, images/sil-canyon-1800.jpg 1800w" sizes="100vw"
+           alt="The Sil canyon in the Ribeira Sacra: a river between steep forested slopes and granite cliffs, under low cloud."
+           width="1800" height="1012" fetchpriority="high">
     </div>
+    <div class="wrap">
+      <h1 class="h-display">You keep the work. We take away everything else.</h1>
+      <p class="hero__sub">A five-day focus week for software teams in rural Galicia. Monday morning to Friday evening. Fibre internet, a long table, and nothing to arrange but your own flight.</p>
+      <div class="hero__actions">
+        <a class="btn btn--light" href="#plan" data-cta="hero">Plan a week for your team <span class="arrow" aria-hidden="true">→</span></a>
+        <p class="hero__aside"><a class="link" href="/partners.html">Are you a property owner or chef in Galicia?</a> <a class="link" href="/socios.html" hreflang="es" lang="es">En español</a></p>
+      </div>
+    </div>
+  </section>
+  <div id="hero-sentinel" aria-hidden="true"></div>
 
-    <!-- Header -->
-    <header class="hero with-bg-image">
-        <div class="container">
-            <nav>
-                <div class="logo">
-                    <h1>Focustime</h1>
-                </div>
-                <div class="nav-links">
-                    <a href="#concept" class="lang-en">Concept</a>
-                    <a href="#concept" class="lang-es">Concepto</a>
-                    <a href="#experience" class="lang-en">Experience</a>
-                    <a href="#experience" class="lang-es">Experiencia</a>
-                    <a href="#locations" class="lang-en">Locations</a>
-                    <a href="#locations" class="lang-es">Ubicaciones</a>
-                    <a href="#contact" class="lang-en">Contact</a>
-                    <a href="#contact" class="lang-es">Contacto</a>
-                </div>
-                <div class="hamburger">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </div>
-            </nav>
-
-            <div class="hero-content">
-                <h2 class="lang-en">Transforming Team Focus in Galicia</h2>
-                <h2 class="lang-es">Transformando el enfoque de equipos en Galicia</h2>
-                <p class="lang-en">Professional retreats designed for productivity, creativity, and team alignment in Spain's most beautiful countryside.</p>
-                <p class="lang-es">Retiros profesionales diseñados para la productividad, creatividad y alineación de equipos en el campo más hermoso de España.</p>
-                <a href="#contact" class="btn primary-btn lang-en">Partner With Us</a>
-                <a href="#contact" class="btn primary-btn lang-es">Asóciate con nosotros</a>
-            </div>
+  <!-- ── The format ──────────────────────────────────────────────────────── -->
+  <section class="section format" aria-labelledby="format-h" style="padding-block: clamp(2.5rem,5vw,4rem);">
+    <div class="wrap">
+      <h2 id="format-h" class="visually-hidden">The format</h2>
+      <dl class="format__grid">
+        <div class="format__cell">
+          <dt class="format__key">Duration</dt>
+          <dd class="format__val">Monday morning to Friday evening
+            <span class="format__note">Four nights &mdash; five if you fly in on Sunday</span></dd>
         </div>
-    </header>
-
-    <!-- Concept Section -->
-    <section id="concept" class="section">
-        <div class="container">
-            <div class="section-header">
-                <h2 class="lang-en">Our Concept</h2>
-                <h2 class="lang-es">Nuestro Concepto</h2>
-                <p class="lang-en">A distraction-free environment for teams to focus on what matters most.</p>
-                <p class="lang-es">Un entorno libre de distracciones para que los equipos se centren en lo más importante.</p>
-            </div>
-            
-            <div class="features">
-                <div class="feature-card">
-                    <i class="fas fa-brain"></i>
-                    <h3 class="lang-en">Deep Focus</h3>
-                    <h3 class="lang-es">Enfoque Profundo</h3>
-                    <p class="lang-en">Dedicated work environments designed to eliminate distractions and maximize productivity.</p>
-                    <p class="lang-es">Entornos de trabajo dedicados diseñados para eliminar distracciones y maximizar la productividad.</p>
-                    <div class="img-container">
-                        <img src="images/workspace.jpg" alt="Peaceful workspace" class="feature-image">
-                    </div>
-                </div>
-                
-                <div class="feature-card">
-                    <i class="fas fa-users"></i>
-                    <h3 class="lang-en">Team Alignment</h3>
-                    <h3 class="lang-es">Alineación de Equipo</h3>
-                    <p class="lang-en">Structured spaces and schedules for meaningful collaboration and alignment.</p>
-                    <p class="lang-es">Espacios y horarios estructurados para una colaboración y alineación significativas.</p>
-                    <div class="img-container">
-                        <img src="images/teamwork.jpg" alt="Teamwork" class="feature-image">
-                    </div>
-                </div>
-                
-                <div class="feature-card">
-                    <i class="fas fa-laptop-house"></i>
-                    <h3 class="lang-en">Total Peace of Mind</h3>
-                    <h3 class="lang-es">Experiencia de "Tranquilidad Total"</h3>
-                    <p class="lang-en">Complete worry-free service with every detail handled, so teams can focus entirely on work.</p>
-                    <p class="lang-es">Servicio completamente sin preocupaciones con cada detalle atendido, para que los equipos puedan concentrarse por completo en el trabajo.</p>
-                    <div class="img-container">
-                        <img src="images/relaxation.jpg" alt="Relaxation" class="feature-image">
-                    </div>
-                </div>
-            </div>
+        <div class="format__cell">
+          <dt class="format__key">Group</dt>
+          <dd class="format__val">8 to 14 people
+            <span class="format__note">One team, the whole house to yourselves</span></dd>
         </div>
-    </section>
-
-    <!-- Experience Section -->
-    <section id="experience" class="section bg-light">
-        <div class="container">
-            <div class="section-header">
-                <h2 class="lang-en">The Focustime Experience</h2>
-                <h2 class="lang-es">La Experiencia Focustime</h2>
-                <p class="lang-en">Carefully crafted retreats that balance productivity with wellbeing.</p>
-                <p class="lang-es">Retiros cuidadosamente diseñados que equilibran la productividad con el bienestar.</p>
-            </div>
-            
-            <div class="experience-grid">
-                <div class="experience-card">
-                    <img src="images/productive-workspace.jpg" alt="Workspace" class="experience-img">
-                    <h3 class="lang-en">Productive Workspaces</h3>
-                    <h3 class="lang-es">Espacios de Trabajo Productivos</h3>
-                    <p class="lang-en">High-speed internet, natural light, flexible work areas, and all necessary technology.</p>
-                    <p class="lang-es">Internet de alta velocidad, luz natural, áreas de trabajo flexibles y toda la tecnología necesaria.</p>
-                </div>
-                
-                <div class="experience-card">
-                    <img src="images/accommodation.jpg" alt="Accommodation" class="experience-img">
-                    <h3 class="lang-en">Comfortable Accommodation</h3>
-                    <h3 class="lang-es">Alojamiento Confortable</h3>
-                    <p class="lang-en">Private rooms for each team member with quiet zones and rejuvenating common areas.</p>
-                    <p class="lang-es">Habitaciones privadas para cada miembro del equipo con zonas tranquilas y áreas comunes rejuvenecedoras.</p>
-                </div>
-                
-                <div class="experience-card">
-                    <img src="images/galician-cuisine.jpg" alt="Galician Cuisine" class="experience-img">
-                    <h3 class="lang-en">Galician Gastronomy</h3>
-                    <h3 class="lang-es">Gastronomía Gallega</h3>
-                    <p class="lang-en">Authentic local cuisine featuring the region's famous seafood and farm-to-table experiences.</p>
-                    <p class="lang-es">Cocina local auténtica con los famosos mariscos de la región y experiencias de la granja a la mesa.</p>
-                </div>
-                
-                <div class="experience-card">
-                    <img src="images/activities.jpg" alt="Activities" class="experience-img">
-                    <h3 class="lang-en">Balanced Activities</h3>
-                    <h3 class="lang-es">Actividades Equilibradas</h3>
-                    <p class="lang-en">Optional water sports, cultural tours, and team-building experiences to recharge creativity.</p>
-                    <p class="lang-es">Deportes acuáticos opcionales, recorridos culturales y experiencias de formación de equipos para recargar la creatividad.</p>
-                </div>
-            </div>
+        <div class="format__cell format__cell--price">
+          <dt class="format__key">Price</dt>
+          <dd class="format__val">€1,100 per person
+            <span class="format__note">Excluding flights</span></dd>
         </div>
-    </section>
-
-    <!-- Locations Section -->
-    <section id="locations" class="section">
-        <div class="container">
-            <div class="section-header">
-                <h2 class="lang-en">Our Galician Settings</h2>
-                <h2 class="lang-es">Nuestros Entornos Gallegos</h2>
-                <p class="lang-en">Carefully selected venues that combine traditional character with modern amenities.</p>
-                <p class="lang-es">Lugares cuidadosamente seleccionados que combinan el carácter tradicional con las comodidades modernas.</p>
-            </div>
-            
-            <div class="locations-showcase">
-                <div class="location-card">
-                    <img src="images/pazo.jpg" alt="Traditional Pazo" class="location-img">
-                    <div class="location-description">
-                        <h3 class="lang-en">Historic Pazos</h3>
-                        <h3 class="lang-es">Pazos Históricos</h3>
-                        <p class="lang-en">Authentic Galician manor houses with centuries of character, renovated for modern business needs.</p>
-                        <p class="lang-es">Auténticas casas señoriales gallegas con siglos de carácter, renovadas para las necesidades empresariales modernas.</p>
-                    </div>
-                </div>
-                
-                <div class="location-card reverse">
-                    <div class="location-description">
-                        <h3 class="lang-en">Coastal Retreats</h3>
-                        <h3 class="lang-es">Retiros Costeros</h3>
-                        <p class="lang-en">Properties near the stunning Rías Baixas coastline, combining sea air with workspace focus.</p>
-                        <p class="lang-es">Propiedades cerca de la impresionante costa de las Rías Baixas, combinando el aire del mar con el enfoque del espacio de trabajo.</p>
-                    </div>
-                    <img src="images/coastal.png" alt="Coastal Property" class="location-img">
-                </div>
-                
-                <div class="location-card">
-                    <img src="images/rural.png" alt="Rural Setting" class="location-img">
-                    <div class="location-description">
-                        <h3 class="lang-en">Rural Escapes</h3>
-                        <h3 class="lang-es">Escapadas Rurales</h3>
-                        <p class="lang-en">Secluded countryside venues offering complete immersion in nature while maintaining connectivity.</p>
-                        <p class="lang-es">Lugares apartados en el campo que ofrecen una inmersión completa en la naturaleza mientras mantienen la conectividad.</p>
-                    </div>
-                </div>
-            </div>
+        <div class="format__cell">
+          <dt class="format__key">Where</dt>
+          <dd class="format__val">Rural Galicia, Spain
+            <span class="format__note">Two hours from Porto</span></dd>
         </div>
-    </section>
-
-    <!-- Partner/Contact Section -->
-    <section id="contact" class="section bg-accent">
-        <div class="container">
-            <div class="section-header light">
-                <h2 class="lang-en">Partner With Us</h2>
-                <h2 class="lang-es">Asóciate con nosotros</h2>
-                <p class="lang-en">We're looking for exceptional properties and service providers across Galicia.</p>
-                <p class="lang-es">Estamos buscando propiedades y proveedores de servicios excepcionales en toda Galicia.</p>
-            </div>
-            
-            <div class="partner-types">
-                <div class="partner-card">
-                    <i class="fas fa-home"></i>
-                    <h3 class="lang-en">Property Owners</h3>
-                    <h3 class="lang-es">Propietarios</h3>
-                    <p class="lang-en">If you own a pazo, villa, or unique property that could host 5-10 person professional retreats.</p>
-                    <p class="lang-es">Si posee un pazo, villa o propiedad única que podría albergar retiros profesionales de 5-10 personas.</p>
-                </div>
-                
-                <div class="partner-card">
-                    <i class="fas fa-utensils"></i>
-                    <h3 class="lang-en">Culinary Partners</h3>
-                    <h3 class="lang-es">Socios Culinarios</h3>
-                    <p class="lang-en">Chefs and catering services specializing in authentic Galician cuisine for group experiences.</p>
-                    <p class="lang-es">Chefs y servicios de catering especializados en auténtica cocina gallega para experiencias grupales.</p>
-                </div>
-                
-                <div class="partner-card">
-                    <i class="fas fa-water"></i>
-                    <h3 class="lang-en">Activity Providers</h3>
-                    <h3 class="lang-es">Proveedores de Actividades</h3>
-                    <p class="lang-en">Companies offering water sports, cultural tours, or unique Galician experiences.</p>
-                    <p class="lang-es">Empresas que ofrecen deportes acuáticos, tours culturales o experiencias gallegas únicas.</p>
-                </div>
-            </div>
-            
-            <div class="contact-form-container">
-                <form id="contact-form" class="contact-form" name="partner-inquiry" data-netlify="true" netlify>
-                    <input type="hidden" name="form-name" value="partner-inquiry">
-                    <input type="hidden" name="bot-field" aria-hidden="true">
-                    <div class="form-group">
-                        <label for="name" class="lang-en">Name</label>
-                        <label for="name" class="lang-es">Nombre</label>
-                        <input type="text" id="name" name="name" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="email" class="lang-en">Email</label>
-                        <label for="email" class="lang-es">Correo electrónico</label>
-                        <input type="email" id="email" name="email" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="phone" class="lang-en">Phone (optional)</label>
-                        <label for="phone" class="lang-es">Teléfono (opcional)</label>
-                        <input type="tel" id="phone" name="phone">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="partner-type" class="lang-en">Partner Type</label>
-                        <label for="partner-type" class="lang-es">Tipo de Socio</label>
-                        <select id="partner-type" name="partner-type" required>
-                            <option value="" class="lang-en">Select an option</option>
-                            <option value="" class="lang-es">Seleccione una opción</option>
-                            <option value="property" class="lang-en">Property Owner</option>
-                            <option value="property" class="lang-es">Propietario</option>
-                            <option value="culinary" class="lang-en">Culinary Service</option>
-                            <option value="culinary" class="lang-es">Servicio Culinario</option>
-                            <option value="activity" class="lang-en">Activity Provider</option>
-                            <option value="activity" class="lang-es">Proveedor de Actividades</option>
-                            <option value="other" class="lang-en">Other</option>
-                            <option value="other" class="lang-es">Otro</option>
-                        </select>
-                    </div>
-                    
-                    <div class="form-group full-width">
-                        <label for="message" class="lang-en">Tell us about your property or services</label>
-                        <label for="message" class="lang-es">Cuéntenos sobre su propiedad o servicios</label>
-                        <textarea id="message" name="message" rows="4" required></textarea>
-                    </div>
-                    
-                    <div class="form-group full-width submit-container">
-                        <button type="submit" class="contact-submit-btn lang-en">
-                            <span>Join Our Network</span>
-                        </button>
-                        <button type="submit" class="contact-submit-btn lang-es">
-                            <span>Únase a Nuestra Red</span>
-                        </button>
-                    </div>
-                </form>
-            </div>
+        <div class="format__cell">
+          <dt class="format__key">Season</dt>
+          <dd class="format__val">April–June, September–October
+            <span class="format__note">We’re running our first weeks in 2027</span></dd>
         </div>
-    </section>
+      </dl>
+    </div>
+  </section>
 
-    <!-- Footer -->
-    <footer>
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-logo">
-                    <h3>Focustime</h3>
-                    <p class="lang-en">Transforming team productivity in Galicia</p>
-                    <p class="lang-es">Transformando la productividad del equipo en Galicia</p>
-                </div>
-                
-                <div class="footer-links">
-                    <h4 class="lang-en">Quick Links</h4>
-                    <h4 class="lang-es">Enlaces Rápidos</h4>
-                    <a href="#concept" class="lang-en">Our Concept</a>
-                    <a href="#concept" class="lang-es">Nuestro Concepto</a>
-                    <a href="#experience" class="lang-en">Experience</a>
-                    <a href="#experience" class="lang-es">Experiencia</a>
-                    <a href="#locations" class="lang-en">Locations</a>
-                    <a href="#locations" class="lang-es">Ubicaciones</a>
-                    <a href="#contact" class="lang-en">Partner With Us</a>
-                    <a href="#contact" class="lang-es">Asóciate con Nosotros</a>
-                </div>
-                
-                <div class="footer-contact">
-                    <h4 class="lang-en">Contact</h4>
-                    <h4 class="lang-es">Contacto</h4>
-                    <p><i class="fas fa-envelope"></i> tjaco@focustime.io</p>
-                    <p><i class="fas fa-phone"></i> +31 626 904 816</p>
-                    <div class="social-icons">
-                        <a href="https://www.linkedin.com/in/tjaco-oostdijk/"><i class="fab fa-linkedin"></i></a>
-                        <a href="https://twitter.com/drumusician"><i class="fab fa-twitter"></i></a>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="footer-bottom">
-                <p>&copy; 2025 Focustime. <span class="lang-en">All rights reserved.</span><span class="lang-es">Todos los derechos reservados.</span></p>
-            </div>
+  <!-- ── What it is ──────────────────────────────────────────────────────── -->
+  <section class="section" aria-labelledby="what-h">
+    <div class="wrap stack-lg">
+      <div class="split">
+        <span class="label">What it is</span>
+        <div>
+          <h2 id="what-h" class="h-section">A working week somewhere better</h2>
+          <div class="prose">
+            <p class="lede">Your team already knows what it needs to build. What it never gets is five uninterrupted days together to do it.</p>
+            <p>Focustime is a house in the Galician countryside, far enough from anything that leaving isn’t an option. Fibre internet, so you’re fully reachable and fully productive. A separate work room with whiteboards and a wall you can cover in paper. A long table where everyone eats together.</p>
+            <p>You bring the work and the people who own it. We handle the rest — the house, every meal, the transport, the afternoon off, and everything that would otherwise land on whoever got stuck organising it.</p>
+          </div>
         </div>
-    </footer>
+      </div>
 
-    <script src="js/main.js"></script>
-    <script src="js/language-switcher.js"></script>
-    <script type="module" src="js/form-handler.js"></script>
-    <script type="module" src="js/analytics.js"></script>
+      <div class="split">
+        <span class="label">What it isn’t</span>
+        <div>
+          <h2 class="h-section">What Focustime is not</h2>
+          <div class="prose">
+            <p>Not team building. Not a company outing. Not a retreat. And not facilitation — most teams bring their own scrum master, and it’s not our job to take that over.</p>
+            <p class="lede">It’s a working week. We just make it a very good one.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── How a week runs ─────────────────────────────────────────────────── -->
+  <section class="section section--sunk" id="week" aria-labelledby="week-h">
+    <div class="wrap">
+      <span class="label">The week</span>
+      <h2 id="week-h" class="h-section">How a week runs</h2>
+
+      <div class="schedule mt-md">
+        <div class="schedule__row">
+          <p class="schedule__day">Monday</p>
+          <p class="schedule__what">You land in Porto, we pick you up. Lunch on arrival, then the afternoon to settle in and agree what each of you wants finished by Friday.</p>
+        </div>
+        <div class="schedule__row">
+          <p class="schedule__day">Tuesday</p>
+          <p class="schedule__what">The first full day. Breakfast when you want it, lunch at the long table, dinner cooked by someone local.</p>
+        </div>
+        <div class="schedule__row">
+          <p class="schedule__day">Wednesday</p>
+          <p class="schedule__what">Work until lunch. Then everyone stops: a vineyard in the Ribeira Sacra, a river, a walk. Back at the house for dinner.</p>
+        </div>
+        <div class="schedule__row">
+          <p class="schedule__day">Thursday</p>
+          <p class="schedule__what">A full day, and usually the best one. By now nobody is checking their phone.</p>
+        </div>
+        <div class="schedule__row">
+          <p class="schedule__day">Friday</p>
+          <p class="schedule__what">Work until eleven, then show each other what you made. Then we drive you back.</p>
+        </div>
+      </div>
+
+      <p class="lede mt-md" style="max-width: 38rem;">That&rsquo;s three and a half working days without a single meeting invite, an interrupt from another team, or a commute. Most teams get more done than in a normal week of five.</p>
+
+      <p class="mt-md" style="max-width: 38rem;">Around that, you set your own rhythm. We keep the shape of the week; what happens inside it is yours.</p>
+
+      <aside class="note">
+        <p><strong>Some teams fly in on Sunday.</strong> It costs one more night &mdash; around &euro;50 per person &mdash; and turns Monday into a full working day. We&rsquo;ll price it either way.</p>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ── Food ────────────────────────────────────────────────────────────── -->
+  <section class="section" id="food" aria-labelledby="food-h">
+    <div class="wrap">
+      <div class="feature">
+        <div>
+          <span class="label">The table</span>
+          <h2 id="food-h" class="h-section">Galician food, cooked by Galicians</h2>
+          <div class="prose">
+            <p>Nobody cooks and nobody does dishes. Meals are made by local cooks with local food — not a catering company with a van.</p>
+            <p>One evening a <em>pulpeiro</em> arrives with a copper pot and a gas ring and cooks the octopus in front of you. Another night it’s a churrasco on the fire outside. There is empanada from the village bakery, caldo, bread from a wood oven, and Albariño from forty minutes down the road.</p>
+            <p>Tell us what people can’t eat and we’ll take care of it. That’s the whole of your involvement.</p>
+          </div>
+        </div>
+        <figure class="figure feature__media">
+          <img src="images/polbo-a-feira-1000.jpg"
+               srcset="images/polbo-a-feira-700.jpg 700w, images/polbo-a-feira-1000.jpg 1000w" sizes="(min-width: 56em) 30rem, 100vw"
+               alt="Polbo á feira served on a wooden plate with paprika, next to a basket of bread and a glass of red wine."
+               width="1000" height="750" loading="lazy" decoding="async">
+          <figcaption>Polbo á feira, with bread and a glass of tinto. Photo: Xosé Calvo, public domain.</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Galicia ─────────────────────────────────────────────────────────── -->
+  <section class="section section--sunk" id="galicia" aria-labelledby="galicia-h">
+    <div class="wrap">
+      <div class="feature feature--flip">
+        <div>
+          <span class="label">Where</span>
+          <h2 id="galicia-h" class="h-section">Rural Galicia</h2>
+          <div class="prose">
+            <p>Galicia is the green corner of Spain — Atlantic, forested, granite, and almost entirely unknown to the people who go to Barcelona and Alicante.</p>
+            <p>We work in the inland hills between Pontevedra and Ourense, and in the Ribeira Sacra, where the Sil river cuts canyons through terraced vineyards. Villages of thirty people. Stone houses with chestnut beams. Fibre internet, because Spain ran fibre into places you wouldn’t expect.</p>
+            <p>The coast is forty minutes away when you want it, and far enough that nobody drifts off to the beach when they shouldn’t.</p>
+          </div>
+        </div>
+        <figure class="figure feature__media">
+          <img src="images/ribeira-sacra-vineyard-1200.jpg"
+               srcset="images/ribeira-sacra-vineyard-800.jpg 800w, images/ribeira-sacra-vineyard-1200.jpg 1200w" sizes="(min-width: 56em) 30rem, 100vw"
+               alt="A terraced vineyard behind a dry granite wall in the Ribeira Sacra, with a scattered hamlet on the far hillside."
+               width="1200" height="900" loading="lazy" decoding="async">
+          <figcaption>Vines above the Sil canyon, Ribeira Sacra. Photo: Tanja Freibott, CC BY-SA 4.0.</figcaption>
+        </figure>
+      </div>
+
+      <div class="split mt-lg">
+        <span class="label">How we pick</span>
+        <p class="lede" style="max-width: 38rem;">We select each house ourselves, and we don’t book anything we haven’t checked: verified fibre with real upload speed, a proper work room, exclusive use of the whole property, and nowhere within walking distance to escape to.</p>
+      </div>
+    </div>
+  </section>
+
+  <figure class="figure figure--band">
+    <img src="images/courel-mist-1800.jpg"
+         srcset="images/courel-mist-1000.jpg 1000w, images/courel-mist-1800.jpg 1800w" sizes="100vw"
+         alt="Cloud filling a valley in the Serra do Courel at dawn, with wooded ridges rising above it."
+         width="1800" height="893" loading="lazy" decoding="async">
+    <figcaption style="padding-top:.75rem;">Cloud in the valley, Serra do Courel. Photo: jacilluch, CC BY-SA 2.0.</figcaption>
+  </figure>
+
+  <!-- ── Included ────────────────────────────────────────────────────────── -->
+  <section class="section section--dark" id="included" aria-labelledby="included-h">
+    <div class="wrap">
+      <span class="label">The price covers</span>
+      <h2 id="included-h" class="h-section">What €1,100 per person includes</h2>
+      <div class="ledger mt-md">
+        <div>
+          <h3 class="h-sub">Included</h3>
+          <ul>
+            <li>Four nights, private room for everyone</li>
+            <li>All meals, cooked on site</li>
+            <li>A dedicated work room with whiteboards and a screen</li>
+            <li>Verified fibre internet</li>
+            <li>Airport pickup and return</li>
+            <li>One afternoon out — winery, river, or coast</li>
+            <li>A host on site all week</li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="h-sub">Not included</h3>
+          <ul class="ledger--out">
+            <li>Your flight to Porto or Santiago de Compostela</li>
+          </ul>
+          <p class="ledger__all">That’s the whole list.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Host ────────────────────────────────────────────────────────────── -->
+  <section class="section" id="host" aria-labelledby="host-h">
+    <div class="wrap">
+      <div class="host">
+        <div>
+          <span class="label">Who</span>
+          <!-- PORTRAIT SLOT — drop a photo of Tjaco in here when one exists.
+               Save as images/tjaco-800.jpg (square, ~800px) and uncomment:
+          <figure class="figure host__portrait">
+            <img src="images/tjaco-800.jpg" alt="Tjaco Oostdijk" width="800" height="800" loading="lazy">
+          </figure>
+          -->
+        </div>
+        <div>
+          <h2 id="host-h" class="h-section">Who’s behind this</h2>
+          <div class="prose">
+            <p>I’m Tjaco Oostdijk. I’ve been a backend engineer and tech lead for years — Elixir and Phoenix, platform teams, the usual. Before that I spent twenty-two years as a working musician and music teacher.</p>
+            <p>I’ve watched a lot of teams never get the week they needed. And I’ve spent years travelling in Galicia, learning Spanish, and slowly working out that what I actually want to do is put those two things together.</p>
+            <p class="lede">We’re running our first weeks in 2027. If you want your team to be one of them, I’d like to hear from you.</p>
+            <p class="small"><a class="link" href="https://www.linkedin.com/in/tjaco-oostdijk/" rel="noopener">Tjaco on LinkedIn</a> · <a class="link" href="mailto:tjaco@focustime.io">tjaco@focustime.io</a></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Contact ─────────────────────────────────────────────────────────── -->
+  <section class="section section--dark" id="plan" aria-labelledby="plan-h">
+    <div class="wrap">
+      <div class="contact">
+        <div>
+          <span class="label">Get in touch</span>
+          <h2 id="plan-h" class="h-section">Talk to us</h2>
+          <p class="lede">Tell us about your team and what you’re trying to get done. We’ll come back with dates, a house, and a price.</p>
+          <p class="mt-md small">Or just email <a class="link" href="mailto:tjaco@focustime.io">tjaco@focustime.io</a>.</p>
+        </div>
+
+        <div id="form-region">
+          <form id="team-form" class="form" name="team-enquiry" method="POST"
+                data-netlify="true" netlify-honeypot="bot-field">
+            <input type="hidden" name="form-name" value="team-enquiry">
+            <p class="field--pot">
+              <label>Don’t fill this in if you’re human: <input name="bot-field" tabindex="-1" autocomplete="off"></label>
+            </p>
+
+            <div class="field">
+              <label for="f-name">Name</label>
+              <input id="f-name" name="name" type="text" autocomplete="name" required>
+            </div>
+
+            <div class="field">
+              <label for="f-email">Work email</label>
+              <input id="f-email" name="email" type="email" autocomplete="email" required>
+            </div>
+
+            <div class="field">
+              <label for="f-company">Company</label>
+              <input id="f-company" name="company" type="text" autocomplete="organization" required>
+            </div>
+
+            <div class="field">
+              <label for="f-size">Team size</label>
+              <select id="f-size" name="team_size" required>
+                <option value="" selected disabled>Select…</option>
+                <option value="8-10">8–10 people</option>
+                <option value="11-14">11–14 people</option>
+                <option value="under-8">Fewer than 8</option>
+                <option value="over-14">More than 14</option>
+                <option value="unsure">Not sure yet</option>
+              </select>
+            </div>
+
+            <div class="field field--wide">
+              <label for="f-topic">What would you want the week to be about?</label>
+              <textarea id="f-topic" name="topic" rows="4" required></textarea>
+            </div>
+
+            <div class="field field--wide">
+              <label for="f-timing">When were you thinking?</label>
+              <input id="f-timing" name="timing" type="text" placeholder="Spring 2027, autumn 2027, no idea yet…">
+            </div>
+
+            <p class="form__status" id="form-status" role="status" hidden></p>
+
+            <div class="form__footer">
+              <button type="submit" class="btn btn--light" id="form-submit">Send it <span class="arrow" aria-hidden="true">→</span></button>
+              <span class="form__note">We’ll reply personally. No mailing list.</span>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Partners ────────────────────────────────────────────────────────── -->
+  <section class="section section--sunk" id="partners" aria-labelledby="partners-h" style="padding-block: clamp(2.5rem,6vw,4rem);">
+    <div class="wrap">
+      <div class="strip">
+        <div>
+          <h2 id="partners-h" class="h-sub">Are you in Galicia?</h2>
+          <p>We’re always looking for houses, cooks and people who know the region. If you own a property, cook, or run something we should know about — get in touch.</p>
+        </div>
+        <div>
+          <a class="btn btn--ghost" href="/partners.html">Work with us <span class="arrow" aria-hidden="true">→</span></a>
+          <p class="small mt-md" style="text-align:center;"><a class="link" href="/socios.html" hreflang="es" lang="es">En español</a></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="site-footer__grid">
+      <div>
+        <h2>Focustime</h2>
+        <p class="muted">Five-day focus weeks for software teams in rural Galicia.</p>
+      </div>
+      <div>
+        <p class="label" style="margin-bottom:.75rem;">Page</p>
+        <ul>
+          <li><a href="#week">How a week runs</a></li>
+          <li><a href="#galicia">Rural Galicia</a></li>
+          <li><a href="#included">What’s included</a></li>
+          <li><a href="#plan">Plan a week</a></li>
+          <li><a href="/partners.html">For partners</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="label" style="margin-bottom:.75rem;">Contact</p>
+        <ul>
+          <li><a href="mailto:tjaco@focustime.io">tjaco@focustime.io</a></li>
+          <li><a href="tel:+31626904816">+31 626 904 816</a></li>
+          <li><a href="https://www.linkedin.com/in/tjaco-oostdijk/" rel="noopener">LinkedIn</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="site-footer__base">
+      <p class="credits">Photographs of Galicia by
+        <a href="https://commons.wikimedia.org/wiki/File:Ca%C3%B1%C3%B3n_do_Sil_-_Ribeira_Sacra.jpg" rel="noopener">Arsenio Blanco</a> (CC&nbsp;BY-SA&nbsp;4.0),
+        <a href="https://commons.wikimedia.org/wiki/File:Vi%C3%B1edos_cerca_del_Can%C3%B3n_del_Sil_en_la_Ribeira_Sacra.jpg" rel="noopener">Tanja Freibott</a> (CC&nbsp;BY-SA&nbsp;4.0),
+        <a href="https://commons.wikimedia.org/wiki/File:POR_O_COUREL_%E2%99%A5_Niebla_de_valle_(14524722517).jpg" rel="noopener">jacilluch</a> (CC&nbsp;BY-SA&nbsp;2.0) and
+        <a href="https://commons.wikimedia.org/wiki/File:Polboafeira.jpg" rel="noopener">Xosé Calvo</a> (public domain), via Wikimedia Commons.</p>
+      <p>© 2026 Focustime</p>
+    </div>
+  </div>
+</footer>
+
+<script src="js/main.js" defer></script>
+<script type="module" src="js/form-handler.js"></script>
+<script type="module" src="js/analytics.js"></script>
 </body>
 </html>

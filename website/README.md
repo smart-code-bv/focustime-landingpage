@@ -1,96 +1,63 @@
-# Focustime Website
+# Focustime website
 
-This is the landing page for Focustime, a corporate retreat service in Galicia, Spain, designed to provide distraction-free environments for team productivity.
+Static site, no build step. See the [repository README](../README.md) for the
+project overview and deployment.
 
-## Structure
-
-- `index.html`: Main HTML file with bilingual content (English/Spanish)
-- `css/styles.css`: Stylesheet for the website
-- `js/main.js`: JavaScript functionality including language switching
-- `js/form-handler.js`: Supabase integration for the contact form
-- `js/supabase-config.js`: Configuration for Supabase connection
-- `js/supabase-lib.js`: Lightweight Supabase client for API interactions
-- `js/analytics.js`: Supabase analytics integration for tracking user interactions
-- `images/`: Directory for website images (placeholders currently)
-- `index-es.txt`: Spanish translations reference document
-- `supabase/`: Directory containing Supabase edge functions and SQL scripts
-- `netlify.toml`: Netlify deployment configuration
-
-## Image Placeholders
-
-The website uses placeholder references for images. Before deploying, add real images to the `images/` directory with the following names:
-
-- `placeholder-hero.jpg` - Hero banner (suggested dimensions: 1920x1080px)
-- `placeholder-workspace.jpg` - Workspace image (suggested dimensions: 600x400px) 
-- `placeholder-accommodation.jpg` - Accommodation image (suggested dimensions: 600x400px)
-- `placeholder-cuisine.jpg` - Galician cuisine image (suggested dimensions: 600x400px)
-- `placeholder-activities.jpg` - Activities image (suggested dimensions: 600x400px)
-- `placeholder-pazo.jpg` - Pazo image (suggested dimensions: 800x600px)
-- `placeholder-coastal.jpg` - Coastal property image (suggested dimensions: 800x600px)
-- `placeholder-rural.jpg` - Rural property image (suggested dimensions: 800x600px)
-
-## Features
-
-- Fully responsive design for all device sizes
-- Bilingual support (English/Spanish) with easy language switching
-- Contact form for potential partners with Supabase backend integration
-- Modern, clean aesthetic emphasizing the Galician experience
-- Email notifications for form submissions using Resend
-
-## Analytics
-
-The website includes built-in privacy-focused analytics tracking through Supabase. For setup and usage instructions, see [ANALYTICS.md](ANALYTICS.md).
-
-Features:
-- Privacy-friendly tracking (respects "Do Not Track")
-- Page views, section visibility, and form interaction tracking
-- Language preference monitoring
-- Custom SQL views for reporting
-- No cookies or third-party tracking
-
-To set up analytics:
-1. Run the SQL script in `supabase/analytics_setup.sql` in your Supabase project
-2. Analytics data will automatically be collected in the `analytics_events` table
-
-## Form Handling
-
-The contact form is integrated with Supabase:
-
-1. Form submissions are stored in a Supabase database table
-2. A Supabase edge function sends email notifications using Resend
-3. Fallback support with Netlify Forms integration
-
-See `SUPABASE_SETUP.md` for detailed configuration instructions and `SUPABASE_CREDENTIALS.md` for credential management.
-
-## Deployment
-
-The website is configured for deployment with Netlify:
-
-1. Install dependencies: `npm install`
-2. Login to Netlify: `npx netlify login`
-3. Initialize Netlify: `npx netlify init`
-4. Deploy a preview: `npx netlify deploy`
-5. Deploy to production: `npx netlify deploy --prod`
-
-See `NETLIFY_DEPLOYMENT.md` for detailed deployment instructions.
-
-## Local Development
-
-To run the site locally:
+## Running it
 
 ```bash
 npm install
-npm start
+npm start          # http://localhost:8080
 ```
 
-Visit http://localhost:8080 in your browser.
+## Design notes
 
-## Further Development
+The product is calm and specific, so the page is too.
 
-Future enhancements could include:
+- **Type**: Newsreader (serif) for prose and headings, Inter for the facts —
+  the format block, the price, the checklists, the form. That split is the
+  point: competitors are vague, Focustime is specific.
+- **Palette**: granite, moss, warm paper, and a little pimentón for the price.
+  Tokens live at the top of `css/styles.css`.
+- **No entrance animations.** Nothing fades in on scroll. Content must never
+  depend on JavaScript to become visible.
+- **Mobile first.** A manager reads this between meetings on a phone.
+- One primary conversion: the team enquiry form at `#plan`.
 
-- Blog section for sharing retreat experiences
-- Interactive map of Galicia with property locations
-- Virtual tour functionality for featured properties
-- Integration with booking/calendar system
-- User accounts for property partners
+## What must stay true
+
+The brief for this page has some hard constraints. Please keep them:
+
+- No claims about specific houses or pazos that have not been secured.
+- No testimonials, client logos, "trusted by", or counts of weeks run — none of
+  it would be true yet.
+- The 2027 first-weeks status stays visible and stays honest.
+- The word "retreat" appears exactly once, in the line saying it is not one.
+- Price stays visible. Competitors hide theirs; being open is the differentiator
+  and it filters out the wrong conversations early.
+- The partner call to action stays secondary to the team one.
+- The team page stays English only. The partner page stays available in Spanish.
+
+## Files
+
+| Path | What it is |
+|---|---|
+| `index.html` | The landing page |
+| `partners.html` | Houses, cooks and guides in Galicia |
+| `socios.html` | The same page in Spanish — keep the two in sync |
+| `css/styles.css` | Tokens, layout and components — the whole design system |
+| `js/main.js` | Sticky-header behaviour, nothing else |
+| `js/form-handler.js` | Both forms, layered delivery, honeypot |
+| `js/analytics.js` | Cookie-free events, honours Do Not Track |
+| `js/supabase-lib.js` | Minimal REST insert client |
+| `js/supabase-config.js` | Project URL and anon key |
+| `favicon.svg` | Wordmark mark |
+| `supabase/` | Table SQL and the notification edge function |
+
+## Docs
+
+- `SUPABASE_SETUP.md` — database, policies, email notifications
+- `SUPABASE_CREDENTIALS.md` — where the keys live
+- `ANALYTICS.md` — what is tracked and how to query it
+- `IMAGE_RECOMMENDATIONS.md` — the current photography and how to replace it
+- `NETLIFY_DEPLOYMENT.md` — hosting

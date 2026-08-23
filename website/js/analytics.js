@@ -1,183 +1,113 @@
-// Analytics for Focustime website
-// This script tracks user interactions and page views
+// Lightweight, cookie-free analytics into our own Supabase instance.
+// Honours Do Not Track / Global Privacy Control and collects nothing that
+// identifies a visitor.
 import supabaseConfig from './supabase-config.js';
 import { createClient } from './supabase-lib.js';
 
-// Initialize Supabase client for analytics
-let supabaseClient = null;
-try {
-  if (supabaseConfig.url && supabaseConfig.anonKey) {
-    supabaseClient = createClient(supabaseConfig.url, supabaseConfig.anonKey);
-    console.log('Analytics: Supabase client initialized successfully');
+const optedOut =
+  navigator.doNotTrack === '1' ||
+  navigator.doNotTrack === 'yes' ||
+  window.doNotTrack === '1' ||
+  navigator.globalPrivacyControl === true;
+
+let supabase = null;
+if (!optedOut) {
+  try {
+    if (supabaseConfig.url && supabaseConfig.anonKey) {
+      supabase = createClient(supabaseConfig.url, supabaseConfig.anonKey);
+    }
+  } catch (error) {
+    console.error('Analytics: Supabase client unavailable:', error);
   }
-} catch (error) {
-  console.error('Analytics: Error initializing Supabase client:', error);
 }
 
-// Initialize analytics
-function initAnalytics() {
-  // Check if we should respect Do Not Track
-  if (navigator.doNotTrack === '1' || navigator.doNotTrack === 'yes') {
-    console.log('Respecting Do Not Track setting');
-    return;
+export async function trackEvent(name, data = {}) {
+  if (!supabase) return;
+  try {
+    await supabase.from('analytics_events').insert({
+      event_name: name,
+      event_data: { ...data, page: window.location.pathname },
+      created_at: new Date().toISOString(),
+    });
+  } catch (error) {
+    console.warn(`Analytics: could not record "${name}"`, error);
   }
-  
-  // Set up basic page view tracking
-  trackPageView();
-  
-  // Set up event listeners for important user interactions
-  setupEventTracking();
 }
 
-// Track page views
-function trackPageView() {
-  const pageData = {
-    page: window.location.pathname,
-    referrer: document.referrer,
-    language: document.documentElement.lang || 'en',
-    timestamp: new Date().toISOString(),
+export function trackPageView() {
+  trackEvent('page_view', {
+    referrer: document.referrer || null,
     viewport: `${window.innerWidth}x${window.innerHeight}`,
-    userAgent: navigator.userAgent
-  };
-  
-  // Log the page view event
-  console.log('Page view:', pageData);
-  
-  // If Supabase client is available, log the page view there
-  if (supabaseClient) {
-    logEventToSupabase('page_view', pageData);
-  }
+    // Coarse device class only — no user agent string, no fingerprinting.
+    device: window.matchMedia('(min-width: 62em)').matches ? 'desktop' : 'mobile',
+  });
 }
 
-// Track user interactions
-function setupEventTracking() {
-  // Track language switcher usage
-  const languageSwitcher = document.getElementById('language-switcher');
-  if (languageSwitcher) {
-    languageSwitcher.addEventListener('click', function() {
-      trackEvent('language_switch', { 
-        from: document.documentElement.lang || 'en',
-        to: document.documentElement.lang === 'es' ? 'en' : 'es'
+// Which sections a visitor actually reaches — the cheapest read on whether the
+// page holds attention all the way to the form.
+function trackSectionViews() {
+  if (!('IntersectionObserver' in window)) return;
+
+  const seen = new Set();
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting || seen.has(entry.target.id)) return;
+        seen.add(entry.target.id);
+        trackEvent('section_view', { section: entry.target.id });
+      });
+    },
+    { threshold: 0.4 }
+  );
+
+  document.querySelectorAll('section[id]').forEach((section) => observer.observe(section));
+}
+
+// Which call to action does the work: header, hero, or scrolling to the form.
+function trackCtaClicks() {
+  document.querySelectorAll('[data-cta]').forEach((el) => {
+    el.addEventListener('click', () => trackEvent('cta_click', { placement: el.dataset.cta }));
+  });
+}
+
+function trackForms() {
+  document.querySelectorAll('form[id]').forEach((form) => {
+    let started = false;
+    form.addEventListener(
+      'input',
+      () => {
+        if (started) return;
+        started = true;
+        trackEvent('form_start', { form: form.id });
+      },
+      { once: false }
+    );
+
+    form.addEventListener('submit', () => {
+      const size = form.querySelector('[name="team_size"]');
+      const type = form.querySelector('[name="partner-type"]');
+      trackEvent('form_submit', {
+        form: form.id,
+        team_size: size ? size.value : undefined,
+        partner_type: type ? type.value : undefined,
       });
     });
-  }
-  
-  // Track section visibility
-  setupIntersectionObserver();
-  
-  // Track contact form interactions
-  trackFormInteractions();
-  
-  // Track outbound links
+  });
+}
+
+function trackOutboundLinks() {
+  document.querySelectorAll('a[href^="http"]').forEach((link) => {
+    if (link.hostname === window.location.hostname) return;
+    link.addEventListener('click', () => {
+      trackEvent('outbound_link_click', { destination: link.hostname });
+    });
+  });
+}
+
+if (supabase) {
+  trackPageView();
+  trackSectionViews();
+  trackCtaClicks();
+  trackForms();
   trackOutboundLinks();
 }
-
-// Use Intersection Observer to track which sections are viewed
-function setupIntersectionObserver() {
-  if (!('IntersectionObserver' in window)) return;
-  
-  const sections = document.querySelectorAll('section[id]');
-  
-  const sectionObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        trackEvent('section_view', { 
-          section: entry.target.id,
-          visible_percent: Math.round(entry.intersectionRatio * 100)
-        });
-      }
-    });
-  }, { threshold: [0.25, 0.5, 0.75, 1] });
-  
-  sections.forEach(section => {
-    sectionObserver.observe(section);
-  });
-}
-
-// Track form interactions
-function trackFormInteractions() {
-  const contactForm = document.getElementById('contact-form');
-  
-  if (contactForm) {
-    // Track form focus
-    const formInputs = contactForm.querySelectorAll('input, textarea, select');
-    formInputs.forEach(input => {
-      input.addEventListener('focus', function() {
-        trackEvent('form_field_focus', { 
-          field: this.name,
-          field_type: this.type
-        });
-      });
-    });
-    
-    // Track form submissions
-    contactForm.addEventListener('submit', function() {
-      const partnerType = document.getElementById('partner-type');
-      trackEvent('form_submit', { 
-        form: 'contact',
-        partner_type: partnerType ? partnerType.value : 'not_specified'
-      });
-    });
-  }
-}
-
-// Track outbound links
-function trackOutboundLinks() {
-  const links = document.querySelectorAll('a[href^="http"]');
-  
-  links.forEach(link => {
-    if (link.hostname !== window.location.hostname) {
-      link.addEventListener('click', function(e) {
-        const linkData = {
-          url: this.href,
-          text: this.textContent.trim(),
-          destination: this.hostname
-        };
-        
-        trackEvent('outbound_link_click', linkData);
-      });
-    }
-  });
-}
-
-// Generic event tracking function
-function trackEvent(eventName, eventData) {
-  const completeEventData = {
-    ...eventData,
-    timestamp: new Date().toISOString(),
-    page: window.location.pathname,
-    language: document.documentElement.lang || 'en'
-  };
-  
-  // Log the event to console
-  console.log(`Event: ${eventName}`, completeEventData);
-  
-  // If Supabase client is available, log the event there
-  if (supabaseClient) {
-    logEventToSupabase(eventName, completeEventData);
-  }
-}
-
-// Log events to Supabase if available
-async function logEventToSupabase(eventName, eventData) {
-  if (!supabaseClient) return;
-  
-  try {
-    // Our custom client expects a single object, not an array
-    const result = await supabaseClient.from('analytics_events').insert({
-      event_name: eventName,
-      event_data: eventData,
-      created_at: new Date().toISOString()
-    });
-    
-    console.log(`Analytics: Event ${eventName} logged to Supabase`);
-  } catch (error) {
-    console.error('Analytics: Error logging to Supabase:', error);
-  }
-}
-
-// Export functions for use in other modules
-export { trackEvent, trackPageView };
-
-// Initialize analytics when the page is loaded
-document.addEventListener('DOMContentLoaded', initAnalytics);

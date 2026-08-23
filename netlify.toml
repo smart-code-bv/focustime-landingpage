@@ -1,21 +1,37 @@
-# example netlify.toml
+# Static site. The publishable content is everything under website/.
 [build]
-  command = "# no build command"
-  functions = "netlify/functions"
   publish = "website"
+  command = "# no build step — plain HTML, CSS and ES modules"
 
-  ## Uncomment to use this redirect for Single Page Applications like create-react-app.
-  ## Not needed for static site generators.
-  #[[redirects]]
-  #  from = "/*"
-  #  to = "/index.html"
-  #  status = 200
+[[redirects]]
+  from = "/partners"
+  to = "/partners.html"
+  status = 200
 
-  ## (optional) Settings for Netlify Dev
-  ## https://github.com/netlify/cli/blob/main/docs/netlify-dev.md#project-detection
-  #[dev]
-  #  command = "yarn start" # Command to start your dev server
-  #  port = 3000 # Port that the dev server will be listening on
-  #  publish = "dist" # Folder with the static content for _redirect file
+[[redirects]]
+  from = "/socios"
+  to = "/socios.html"
+  status = 200
 
-  ## more info on configuring this file: https://ntl.fyi/file-based-build-config
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "DENY"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "geolocation=(), camera=(), microphone=(), interest-cohort=()"
+    # 'unsafe-inline' for styles only: the pages use a handful of inline style
+    # attributes. There are no inline scripts.
+    Content-Security-Policy = "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://*.supabase.co; form-action 'self'; frame-ancestors 'none'; base-uri 'self'; object-src 'none'"
+
+# Fingerprint-free filenames, so cache conservatively for markup and
+# aggressively for the image set, which only ever changes by adding new files.
+[[headers]]
+  for = "/images/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/*.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"

@@ -6,7 +6,7 @@ This document describes the analytics integration for the Focustime website usin
 
 The Focustime website includes lightweight analytics tracking that respects user privacy while providing valuable insights about user behavior. Unlike traditional analytics platforms, our implementation:
 
-1. Respects the "Do Not Track" browser setting
+1. Respects the "Do Not Track" browser setting and Global Privacy Control
 2. Does not use cookies for tracking
 3. Collects only necessary usage data
 4. Stores data in your own Supabase instance (not third-party servers)
@@ -16,12 +16,15 @@ The Focustime website includes lightweight analytics tracking that respects user
 
 The following events are tracked:
 
-- `page_view`: When a user loads a page
-- `section_view`: When a user scrolls to view a specific section
-- `form_field_focus`: When a user interacts with a form field
-- `form_submit`: When a user submits the contact form
-- `language_switch`: When a user switches the language
-- `outbound_link_click`: When a user clicks a link to an external website
+- `page_view`: a page load, with referrer, viewport and a coarse desktop/mobile flag
+- `section_view`: the first time a section scrolls into view — the cheapest read
+  on whether the page holds attention all the way down to the form
+- `cta_click`: a call-to-action click, tagged with its placement (`header`, `hero`)
+- `form_start`: the first keystroke in a form
+- `form_submit`: a submitted form, with team size or partner type
+- `outbound_link_click`: a click to another domain
+
+No user agent string is stored and nothing identifies a visitor.
 
 ## Setup Instructions
 

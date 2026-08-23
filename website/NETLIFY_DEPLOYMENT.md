@@ -100,8 +100,12 @@ Now, whenever you push changes to the connected repository, Netlify will automat
 If form submissions aren't working:
 
 1. Verify that the form has the `netlify` and `data-netlify="true"` attributes
-2. Check that the form has a name attribute (`name="partner-inquiry"`)
-3. Verify the hidden input field is present: `<input type="hidden" name="form-name" value="partner-inquiry">`
+2. Check that each form has a name attribute — `name="team-enquiry"` on
+   `index.html` and `name="partner-inquiry"` on `partners.html`
+3. Verify the matching hidden input is present in each, e.g.
+   `<input type="hidden" name="form-name" value="team-enquiry">`
+4. Note that Netlify Forms is only the third delivery layer here — submissions
+   normally go straight to Supabase (see `SUPABASE_SETUP.md`)
 
 ### Deployment Issues
 
@@ -109,6 +113,7 @@ If deployment fails:
 
 1. Check the Netlify deployment logs
 2. Verify that all files are in the correct location
-3. Ensure that the publish directory in netlify.toml is correctly set to `./`
+3. Ensure that the publish directory in the root `netlify.toml` is set to
+   `website` (there is one netlify.toml, at the repository root)
 
 For further assistance, contact Netlify support or refer to their documentation at https://docs.netlify.com/

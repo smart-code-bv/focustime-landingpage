@@ -1,6 +1,18 @@
 # Supabase Backend Setup for Focustime
 
-This document outlines the steps needed to set up the Supabase backend for the Focustime contact form.
+This document outlines the steps needed to set up the Supabase backend for the
+Focustime contact forms.
+
+The site has two forms and two tables:
+
+| Form | Page | Table |
+|---|---|---|
+| Team enquiry (the primary conversion) | `index.html` | `team_enquiries` |
+| Partner enquiry | `partners.html` | `contact_submissions` |
+
+If `team_enquiries` does not exist yet, the website silently falls back to
+`contact_submissions` with `partner_type = 'team-enquiry'`, so no submission is
+ever lost while this is being set up.
 
 ## 1. Create a Supabase Project
 
@@ -11,9 +23,16 @@ This document outlines the steps needed to set up the Supabase backend for the F
 5. Choose a region close to your target audience (e.g. "West Europe")
 6. Wait for your project to be set up
 
-## 2. Set Up Database Table
+## 2. Set Up Database Tables
 
-Create a new table for storing contact form submissions:
+### 2a. Team enquiries (run this — it is the primary form)
+
+Run `supabase/team_enquiries_setup.sql` in the Supabase SQL editor. It creates
+the table, its index and its row-level security policies, and is safe to re-run.
+
+### 2b. Partner enquiries (already exists)
+
+The original table, now used only by the partner form:
 
 ```sql
 CREATE TABLE contact_submissions (
@@ -64,7 +83,9 @@ To send email notifications when a partner contact form is submitted:
    - Settings > API > Edge Functions
    - Add a new secret with the key `RESEND_API_KEY` and your API key as the value
 
-4. Deploy the Edge Function:
+4. Deploy the Edge Function. It handles both tables — it detects a team
+   enquiry by the presence of a `team_size` field — and accepts both the
+   webhook envelope (`{ type, table, record }`) and a flat row:
    - Create a new folder in your project: `supabase/send-form-notification`
    - Add your Edge Function code in `index.ts`
    - Deploy the function with: `supabase functions deploy send-form-notification --project-ref YOUR_PROJECT_REF`
@@ -81,26 +102,44 @@ Your Edge Function will now send an email notification to `tjaco@focustime.io` w
 
 You can test the email function directly using cURL:
 
+A team enquiry:
+
+```bash
+curl -X POST "https://YOUR_PROJECT_REF.supabase.co/functions/v1/send-form-notification" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "Test Manager",
+    "email": "test@example.com",
+    "company": "Example BV",
+    "team_size": "11-14",
+    "topic": "Rewriting the billing service",
+    "timing": "May 2027"
+  }'
+```
+
+A partner enquiry:
+
 ```bash
 curl -X POST "https://YOUR_PROJECT_REF.supabase.co/functions/v1/send-form-notification" \
   -H "Content-Type: application/json" \
   -d '{
     "name": "Test Partner",
     "email": "test@example.com",
-    "phone": "+1234567890",
+    "phone": "+34600000000",
     "partner_type": "property",
-    "message": "This is a test message",
-    "language": "en"
+    "message": "This is a test message"
   }'
 ```
 
 ## 5. Update Website with Supabase Configuration
 
-In your `website/js/supabase.js` file, replace the placeholders with your actual Supabase URL and anon key:
+The credentials live in `website/js/supabase-config.js`:
 
 ```javascript
-const SUPABASE_URL = 'https://your-project-id.supabase.co';
-const SUPABASE_ANON_KEY = 'your-anon-key';
+const supabaseConfig = {
+  url: 'https://your-project-ref.supabase.co',
+  anonKey: 'your-anon-key',
+};
 ```
 
 > ⚠️ **Security Note**: For production, consider using a server-side approach or environment variables to prevent exposing your Supabase anon key in client-side code.
@@ -135,8 +174,8 @@ Key features of the analytics system:
 Events currently being tracked:
 - Page views
 - Section visibility (using Intersection Observer)
-- Language switches
-- Form interactions (field focus, submission)
+- Call-to-action clicks, by placement
+- Form starts and submissions
 - Outbound link clicks
 
 Privacy considerations:

@@ -1,7 +1,7 @@
 {
   "name": "focustime",
   "version": "1.0.0",
-  "description": "Corporate retreat platform for IT teams in Galicia, Spain",
+  "description": "Landing page for Focustime — five-day focus weeks for software teams in rural Galicia",
   "main": "index.html",
   "scripts": {
     "start": "npx http-server . -p 8080",
@@ -9,11 +9,12 @@
     "deploy:prod": "netlify deploy --prod"
   },
   "keywords": [
-    "corporate",
-    "retreat",
     "focustime",
     "galicia",
-    "spain"
+    "software teams",
+    "offsite",
+    "focus week",
+    "landing page"
   ],
   "author": "Tjaco Oostdijk",
   "license": "UNLICENSED",
